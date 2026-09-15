@@ -2913,3 +2913,284 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================================
+   ATENDIMENTOS — OPERATION DESK V3
+   Tabela e filtros com linguagem de CRM corporativo.
+   ========================================================= */
+
+#paginaAtendimentos .page-header {
+  padding: 26px 0 17px;
+  margin-bottom: 0;
+}
+
+#paginaAtendimentos .page-header .btn-novo {
+  min-height: 36px;
+  padding: 0 15px;
+  border-radius: 6px !important;
+  font-size: 10px;
+  box-shadow: 0 7px 18px rgba(0, 87, 180, .16);
+}
+
+/* Barra de filtros mais compacta */
+#paginaAtendimentos .filtros-operacionais {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.2fr 1.2fr 1.25fr auto auto;
+  gap: 10px;
+  align-items: end;
+  padding: 13px 14px;
+  margin: 14px 0 20px;
+  border: 1px solid rgba(255,255,255,.075) !important;
+  border-radius: 7px !important;
+  background: #090b0d !important;
+}
+
+#paginaAtendimentos .filtros-operacionais .campo {
+  gap: 5px;
+}
+
+#paginaAtendimentos .filtros-operacionais label {
+  color: #717a83;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .35px;
+  text-transform: uppercase;
+}
+
+#paginaAtendimentos .filtros-operacionais input,
+#paginaAtendimentos .filtros-operacionais select {
+  height: 35px;
+  min-height: 35px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 10px;
+  background: #07090a !important;
+}
+
+#paginaAtendimentos .filtros-operacionais .btn-filtrar,
+#paginaAtendimentos .filtros-operacionais .btn-limpar {
+  height: 35px;
+  min-height: 35px;
+  padding: 0 14px;
+  border-radius: 6px;
+  font-size: 10px;
+}
+
+/* Cabeçalho dos registros */
+#paginaAtendimentos .atendimentos {
+  margin-top: 0;
+}
+
+#paginaAtendimentos .section-header {
+  min-height: 48px;
+  margin: 0;
+  padding: 0 0 11px;
+  align-items: flex-end;
+}
+
+#paginaAtendimentos .section-header h3 {
+  margin: 0 0 3px;
+  color: #e9ebed;
+  font-size: 16px !important;
+  font-weight: 760;
+  letter-spacing: -.25px;
+}
+
+#paginaAtendimentos #contadorRegistros {
+  color: #66707a;
+  font-size: 9px;
+}
+
+#paginaAtendimentos .section-header .btn-novo {
+  min-height: 34px;
+  padding: 0 13px;
+  border-radius: 6px !important;
+  font-size: 9px;
+}
+
+/* Tabela operacional */
+#paginaAtendimentos .table-container {
+  border: 1px solid rgba(255,255,255,.08) !important;
+  border-radius: 7px !important;
+  background: #07090a !important;
+  box-shadow: none !important;
+}
+
+#paginaAtendimentos .table-container table {
+  border-collapse: collapse;
+}
+
+#paginaAtendimentos .table-container thead {
+  background: #101214 !important;
+}
+
+#paginaAtendimentos .table-container th {
+  height: 38px;
+  padding: 8px 6px !important;
+  color: #7f8891 !important;
+  border-bottom: 1px solid rgba(255,255,255,.09) !important;
+  font-size: 8px !important;
+  font-weight: 850;
+  letter-spacing: .35px;
+  text-transform: uppercase;
+}
+
+#paginaAtendimentos .table-container td {
+  height: 53px;
+  padding: 8px 6px !important;
+  color: #bfc5ca !important;
+  border-bottom: 1px solid rgba(255,255,255,.052) !important;
+  font-size: 9px !important;
+  line-height: 1.3;
+}
+
+#paginaAtendimentos .table-container tbody tr {
+  background: #080a0b !important;
+  transition: background .13s ease;
+}
+
+#paginaAtendimentos .table-container tbody tr:nth-child(even) {
+  background: #0a0c0e !important;
+}
+
+#paginaAtendimentos .table-container tbody tr:hover {
+  background: #101316 !important;
+  box-shadow: inset 2px 0 0 #0787ff !important;
+}
+
+/* Cliente e atendente têm maior peso visual */
+#paginaAtendimentos .table-container td:nth-child(4) {
+  color: #f0f2f3 !important;
+  font-weight: 720;
+}
+
+#paginaAtendimentos .table-container td:nth-child(5) {
+  color: #d8dcdf !important;
+  font-weight: 680;
+}
+
+/* Data, código e cidade como metadados */
+#paginaAtendimentos .table-container td:nth-child(1),
+#paginaAtendimentos .table-container td:nth-child(2),
+#paginaAtendimentos .table-container td:nth-child(3),
+#paginaAtendimentos .table-container td:nth-child(6) {
+  color: #8c949c !important;
+}
+
+/* Badges pequenos, sem aparência de botões grandes */
+#paginaAtendimentos .canal-chatmix,
+#paginaAtendimentos .canal-ligacao,
+#paginaAtendimentos .status-resolvido,
+#paginaAtendimentos .status-nao-resolvido {
+  min-height: 23px !important;
+  padding: 4px 6px !important;
+  border-radius: 5px !important;
+  font-size: 7.5px !important;
+  font-weight: 800;
+  box-shadow: none !important;
+}
+
+#paginaAtendimentos .status-resolvido {
+  color: #77dcae !important;
+  background: rgba(25,199,131,.07) !important;
+  border-color: rgba(25,199,131,.20) !important;
+}
+
+#paginaAtendimentos .status-nao-resolvido {
+  color: #f39199 !important;
+  background: rgba(239,83,96,.07) !important;
+  border-color: rgba(239,83,96,.20) !important;
+}
+
+/* Pontuação vira indicador, não card */
+#paginaAtendimentos .acao-pontuar,
+#paginaAtendimentos .pontuacao-leitura {
+  min-height: 27px !important;
+  padding: 4px 5px !important;
+  border-radius: 5px !important;
+  font-size: 7.5px !important;
+  line-height: 1.15;
+  box-shadow: none !important;
+  background: rgba(232,185,45,.045) !important;
+  border-color: rgba(232,185,45,.20) !important;
+}
+
+#paginaAtendimentos .acao-pontuar:hover {
+  background: rgba(232,185,45,.09) !important;
+  border-color: rgba(232,185,45,.35) !important;
+}
+
+/* Conversa e relato discretos */
+#paginaAtendimentos .link-chat,
+#paginaAtendimentos .btn-relato {
+  min-height: 27px;
+  padding: 4px 6px !important;
+  border-radius: 5px !important;
+  background: transparent !important;
+  font-size: 7.5px !important;
+  font-weight: 750;
+}
+
+#paginaAtendimentos .link-chat {
+  color: #61b2ff !important;
+  border-color: rgba(7,135,255,.30) !important;
+}
+
+#paginaAtendimentos .btn-relato {
+  color: #c7a6f8 !important;
+  border-color: rgba(139,92,246,.30) !important;
+}
+
+/* Ações menores */
+#paginaAtendimentos .acao-editar,
+#paginaAtendimentos .acao-excluir {
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 5px !important;
+  margin: 1px !important;
+  box-shadow: none !important;
+}
+
+/* Mantém as 12 colunas em 100%, privilegiando cliente */
+#paginaAtendimentos .table-container th:nth-child(1),
+#paginaAtendimentos .table-container td:nth-child(1) { width: 3% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(2),
+#paginaAtendimentos .table-container td:nth-child(2) { width: 7% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(3),
+#paginaAtendimentos .table-container td:nth-child(3) { width: 6% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(4),
+#paginaAtendimentos .table-container td:nth-child(4) { width: 15% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(5),
+#paginaAtendimentos .table-container td:nth-child(5) { width: 8% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(6),
+#paginaAtendimentos .table-container td:nth-child(6) { width: 8% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(7),
+#paginaAtendimentos .table-container td:nth-child(7) { width: 8% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(8),
+#paginaAtendimentos .table-container td:nth-child(8) { width: 10% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(9),
+#paginaAtendimentos .table-container td:nth-child(9) { width: 9% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(10),
+#paginaAtendimentos .table-container td:nth-child(10) { width: 10% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(11),
+#paginaAtendimentos .table-container td:nth-child(11) { width: 10% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(12),
+#paginaAtendimentos .table-container td:nth-child(12) { width: 6% !important; }
+
+@media (max-width: 1100px) {
+  #paginaAtendimentos .filtros-operacionais {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
