@@ -364,6 +364,9 @@ function mostrarPagina(nome) {
     $("paginaRelatorios").classList.add("ativa");
     marcarMenuAtivo($("menuRelatorios"));
     atualizarRelatorios();
+  } else if (nome === "configuracoes") {
+    $("paginaConfiguracoes").classList.add("ativa");
+    marcarMenuAtivo($("menuConfiguracoes"));
   } else {
     $("paginaInicio").classList.add("ativa");
     marcarMenuAtivo($("menuInicio"));
@@ -521,6 +524,7 @@ function atualizarBonificacao() {
 const menuInicio = $("menuInicio");
 const menuAtendimentos = $("menuAtendimentos");
 const menuRelatorios = $("menuRelatorios");
+const menuConfiguracoes = $("menuConfiguracoes");
 const menuBonificacao = $("menuBonificacao");
 const btnNovoAtendimentoTopo = $("btnNovoAtendimentoTopo");
 
@@ -538,6 +542,10 @@ if (menuRelatorios) {
 
 if (menuBonificacao) {
   menuBonificacao.addEventListener("click", () => mostrarPagina("bonificacao"));
+}
+
+if (menuConfiguracoes) {
+  menuConfiguracoes.addEventListener("click", () => mostrarPagina("configuracoes"));
 }
 
 if (btnNovoAtendimentoTopo) {
