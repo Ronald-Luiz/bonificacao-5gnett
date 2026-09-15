@@ -347,7 +347,8 @@ function mostrarPagina(nome) {
     $("paginaInicio"),
     $("paginaAtendimentos"),
     $("paginaBonificacao"),
-    $("paginaRelatorios")
+    $("paginaRelatorios"),
+    $("paginaConfiguracoes")
   ].filter(Boolean);
 
   paginas.forEach(pagina => pagina.classList.remove("ativa"));
