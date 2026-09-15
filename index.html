@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>5GNETT | Controle de Atendimentos</title>
-  <link rel="stylesheet" href="style.css?v=20260915-6">
+  <link rel="stylesheet" href="style.css?v=20260915-9">
 </head>
 
 <body>
@@ -23,9 +23,9 @@
       <button class="menu-item active" id="menuInicio"><span>⌂</span>Início</button>
       <button class="menu-item" id="menuAtendimentos"><span>▤</span>Atendimentos</button>
       <button class="menu-item" id="menuNovoAtendimento"><span>＋</span>Novo Atendimento</button>
-      <button class="menu-item" id="menuBonificacao"><span>🏆</span>Bonificação</button>
-      <button class="menu-item" id="menuRelatorios"><span>▥</span>Relatórios</button>
-      <button class="menu-item" id="menuConfiguracoes"><span>⚙</span>Configurações</button>
+      <button class="menu-item menu-gerencia" id="menuBonificacao" data-gerencia="true"><span>🏆</span>Bonificação</button>
+      <button class="menu-item menu-gerencia" id="menuRelatorios" data-gerencia="true"><span>▥</span>Relatórios</button>
+      <button class="menu-item menu-gerencia" id="menuConfiguracoes" data-gerencia="true"><span>⚙</span>Configurações</button>
     </nav>
 
     <div class="sidebar-footer">
@@ -48,10 +48,12 @@
 
       <div class="usuario">
         <div class="avatar">5G</div>
-        <div>
-          <strong>Equipe 5GNETT</strong>
-          <span>Suporte Técnico</span>
+        <div class="usuario-info">
+          <strong id="usuarioNome">Equipe 5GNETT</strong>
+          <span id="usuarioPerfil">Suporte Técnico</span>
         </div>
+        <button class="btn-login-gerencia" id="btnLoginGerencia" type="button">🔐 Gerência</button>
+        <button class="btn-sair-gerencia" id="btnSairGerencia" type="button" hidden>Sair</button>
       </div>
     </header>
 
@@ -509,6 +511,27 @@
     </footer>
 
   </main>
+</div>
+
+<!-- MODAL LOGIN DA GERÊNCIA -->
+<div class="modal" id="modalLoginGerencia">
+  <div class="modal-content modal-login-gerencia">
+    <div class="modal-header">
+      <div><h2>🔐 Acesso da Gerência</h2><p>Entre com a conta administrativa cadastrada no sistema.</p></div>
+      <button class="fechar-modal" id="fecharLoginGerencia" type="button">×</button>
+    </div>
+    <form id="formLoginGerencia">
+      <div class="login-gerencia-campos">
+        <div class="campo"><label>E-mail</label><input type="email" id="emailGerencia" placeholder="E-mail da gerência" autocomplete="username" required></div>
+        <div class="campo"><label>Senha</label><input type="password" id="senhaGerencia" placeholder="Digite sua senha" autocomplete="current-password" required></div>
+        <div class="login-gerencia-erro" id="erroLoginGerencia" hidden></div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancelar" id="cancelarLoginGerencia">Cancelar</button>
+        <button type="submit" class="btn-salvar">Entrar na Gerência</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- MODAL NOVO / EDITAR ATENDIMENTO -->
