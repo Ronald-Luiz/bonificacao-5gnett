@@ -355,6 +355,66 @@ function atualizarCards() {
   $("taxaResolutividade").textContent = `${taxa}%`;
 }
 
+
+const REGRAS_PONTUACAO = { Simples: 3, Normal: 4, Complexo: 5, Excelente: 6 };
+const REGRAS_PENALIZACAO = { "": 0, Leve: -2, Grave: -5 };
+
+function pontosLiquidos(item) {
+  return Number(item?.pontos || 0) + Number(item?.penalizacao || 0);
+}
+
+function rotuloPontuacao(item) {
+  const classificacao = item?.classificacao || "Sem classificação";
+  const erro = item?.tipo_erro ? ` • Erro ${String(item.tipo_erro).toLowerCase()}` : "";
+  return `${classificacao} • ${pontosLiquidos(item)} pts${erro}`;
+}
+
+async function pontuarAtendimento(id) {
+  if (!exigirGerencia()) return;
+  const item = atendimentos.find(a => String(a.id) === String(id));
+  if (!item) return;
+
+  const escolha = prompt(
+    `Classifique o atendimento de ${item.nome}:\n\n` +
+    `1 = Simples (3 pts)\n2 = Normal (4 pts)\n3 = Complexo (5 pts)\n4 = Excelente (6 pts)\n0 = Remover classificação`
+  );
+  if (escolha === null) return;
+
+  const mapa = { "1":"Simples", "2":"Normal", "3":"Complexo", "4":"Excelente", "0":"" };
+  if (!(escolha.trim() in mapa)) return alert("Opção de classificação inválida.");
+
+  const classificacao = mapa[escolha.trim()];
+  const pontos = classificacao ? REGRAS_PONTUACAO[classificacao] : 0;
+
+  const escolhaErro = prompt(
+    `Penalização:\n\n0 = Sem erro\n1 = Erro leve (-2 pts)\n2 = Erro grave (-5 pts)\n\nAtual: ${item.tipo_erro || "Sem erro"}`
+  );
+  if (escolhaErro === null) return;
+
+  const mapaErro = { "0":"", "1":"Leve", "2":"Grave" };
+  if (!(escolhaErro.trim() in mapaErro)) return alert("Opção de penalização inválida.");
+
+  const tipoErro = mapaErro[escolhaErro.trim()];
+  const registro = {
+    classificacao: classificacao || null,
+    pontos,
+    penalizacao: REGRAS_PENALIZACAO[tipoErro],
+    tipo_erro: tipoErro || null
+  };
+
+  try {
+    const atualizado = await atualizarAtendimentoOnline(id, registro);
+    atendimentos = atendimentos.map(a => String(a.id) === String(id) ? atualizado : a);
+    salvarBackupLocal();
+    atualizarTela();
+    atualizarRelatorios();
+    atualizarBonificacao();
+  } catch (erro) {
+    console.error("Erro ao pontuar atendimento:", erro);
+    alert("Não foi possível salvar a pontuação no banco online.");
+  }
+}
+
 function renderizarTabela() {
   const lista = obterFiltrados();
 
@@ -364,7 +424,7 @@ function renderizarTabela() {
   if (!lista.length) {
     tabela.innerHTML = `
       <tr>
-        <td colspan="11" style="text-align:center;padding:36px;color:#91a4b7">
+        <td colspan="12" style="text-align:center;padding:36px;color:#91a4b7">
           Nenhum atendimento encontrado.
         </td>
       </tr>`;
@@ -409,6 +469,11 @@ function renderizarTabela() {
           <span class="${resolvido ? "status-resolvido" : "status-nao-resolvido"}">
             ${escaparHTML(item.resolutividade)}
           </span>
+        </td>
+        <td>
+          ${gerenciaAutorizada
+            ? `<button class="acao-pontuar" type="button" onclick="pontuarAtendimento('${item.id}')" title="Classificar pontuação">⭐ ${escaparHTML(rotuloPontuacao(item))}</button>`
+            : `<span class="pontuacao-leitura">⭐ ${escaparHTML(rotuloPontuacao(item))}</span>`}
         </td>
         <td>${conversa}</td>
         <td>
@@ -470,6 +535,7 @@ function fecharRelato() {
 window.editarAtendimento = editarAtendimento;
 window.excluirAtendimento = excluirAtendimento;
 window.verRelato = verRelato;
+window.pontuarAtendimento = pontuarAtendimento;
 
 form.addEventListener("submit", async e => {
   e.preventDefault();
@@ -703,62 +769,52 @@ function atualizarBonificacao() {
   if ($("bonifTaxaEquipe")) $("bonifTaxaEquipe").textContent = `${taxaEquipe}%`;
 
   const nomes = ["Guilherme", "Ronald", "Ivo", "Juarez"];
-
   const ranking = nomes.map(nome => {
     const itens = lista.filter(a => a.atendente === nome);
     const qtd = itens.length;
     const ok = itens.filter(a => a.resolutividade === "Resolvido").length;
-    const nao = qtd - ok;
     const percentual = qtd ? Math.round((ok / qtd) * 100) : 0;
-
-    return { nome, qtd, ok, nao, percentual };
-  }).sort((a, b) =>
-    b.percentual - a.percentual ||
-    b.ok - a.ok ||
-    b.qtd - a.qtd ||
-    a.nome.localeCompare(b.nome)
+    const pontosBase = itens.reduce((s,a) => s + Number(a.pontos || 0), 0);
+    const penalizacoes = itens.reduce((s,a) => s + Number(a.penalizacao || 0), 0);
+    const pontos = pontosBase + penalizacoes;
+    const classificados = itens.filter(a => a.classificacao).length;
+    const media = classificados ? pontos / classificados : 0;
+    return { nome, qtd, ok, percentual, pontos, penalizacoes, classificados, media };
+  }).sort((a,b) =>
+    b.pontos-a.pontos || b.media-a.media || b.percentual-a.percentual ||
+    b.ok-a.ok || b.qtd-a.qtd || a.nome.localeCompare(b.nome)
   );
 
   const rankingEl = $("rankingBonificacao");
-
   if (rankingEl) {
     rankingEl.innerHTML = ranking.map((item, indice) => {
-      const medalha =
-        indice === 0 ? "🥇" :
-        indice === 1 ? "🥈" :
-        indice === 2 ? "🥉" : "🏅";
-
+      const medalha = indice===0 ? "🥇" : indice===1 ? "🥈" : indice===2 ? "🥉" : "🏅";
+      const faixa = item.pontos >= 350 ? "Faixa superior • +20%" :
+                    item.pontos >= 250 ? "Meta atingida" :
+                    `${Math.max(0,250-item.pontos)} pts para a meta`;
       return `
         <article class="ranking-card">
-          <div class="ranking-posicao">${indice + 1}º</div>
+          <div class="ranking-posicao">${indice+1}º</div>
           <div class="ranking-medalha">${medalha}</div>
           <h4>${escaparHTML(item.nome)}</h4>
-          <strong>${item.percentual}%</strong>
-          <span>
-            ${item.qtd} ${item.qtd === 1 ? "atendimento" : "atendimentos"}
-            • ${item.ok} ${item.ok === 1 ? "resolvido" : "resolvidos"}
-          </span>
-        </article>
-      `;
+          <strong>${item.pontos} pts</strong>
+          <span>${item.qtd} atendimentos • média ${item.media.toFixed(2).replace(".",",")} pts • ${item.percentual}% resolutividade</span>
+          <span>${faixa}${item.penalizacoes ? ` • penalizações ${item.penalizacoes} pts` : ""}</span>
+        </article>`;
     }).join("");
   }
 
   const lider = ranking.find(item => item.qtd > 0);
-
   if (lider) {
     if ($("bonifLiderNome")) $("bonifLiderNome").textContent = lider.nome;
-    if ($("bonifLiderTaxa")) $("bonifLiderTaxa").textContent = `${lider.percentual}%`;
-    if ($("bonifLiderResumo")) {
-      $("bonifLiderResumo").textContent =
-        `${lider.ok} resolvidos em ${lider.qtd} atendimentos no período selecionado.`;
-    }
+    if ($("bonifLiderTaxa")) $("bonifLiderTaxa").textContent = `${lider.pontos} pts`;
+    if ($("bonifLiderResumo")) $("bonifLiderResumo").textContent =
+      `${lider.qtd} atendimentos • média ${lider.media.toFixed(2).replace(".",",")} pts • ${lider.percentual}% de resolutividade.`;
   } else {
     if ($("bonifLiderNome")) $("bonifLiderNome").textContent = "Nenhum atendimento";
-    if ($("bonifLiderTaxa")) $("bonifLiderTaxa").textContent = "0%";
-    if ($("bonifLiderResumo")) {
-      $("bonifLiderResumo").textContent =
-        "Cadastre atendimentos para gerar o ranking da equipe.";
-    }
+    if ($("bonifLiderTaxa")) $("bonifLiderTaxa").textContent = "0 pts";
+    if ($("bonifLiderResumo")) $("bonifLiderResumo").textContent =
+      "Cadastre e classifique atendimentos para gerar o ranking da equipe.";
   }
 }
 
