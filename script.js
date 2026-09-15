@@ -330,53 +330,57 @@ function mostrarDataAtual() {
   });
 }
 
-migrarDadosAntigos();
-mostrarDataAtual();
-atualizarTela();
 
 // =========================
-// NAVEGAÇÃO DO PAINEL
+// NAVEGAÇÃO ENTRE INÍCIO E ATENDIMENTOS
 // =========================
-
-const menuInicio = $("menuInicio");
-const menuAtendimentos = $("menuAtendimentos");
-const paginaInicio = $("paginaInicio");
-const paginaAtendimentos = $("paginaAtendimentos");
-const btnNovoAtendimentoTopo = $("btnNovoAtendimentoTopo");
-
-function marcarMenuAtivo(botao) {
-  document.querySelectorAll(".menu-item").forEach(item => {
-    item.classList.remove("active");
+function marcarMenuAtivo(idAtivo) {
+  document.querySelectorAll(".menu-item").forEach(botao => {
+    botao.classList.remove("active");
   });
 
-  if (botao) botao.classList.add("active");
+  const ativo = $(idAtivo);
+  if (ativo) ativo.classList.add("active");
 }
 
 function mostrarPagina(nome) {
-  paginaInicio.classList.remove("ativa");
-  paginaAtendimentos.classList.remove("ativa");
+  const inicio = $("paginaInicio");
+  const atend = $("paginaAtendimentos");
+
+  if (!inicio || !atend) return;
+
+  inicio.classList.remove("ativa");
+  atend.classList.remove("ativa");
 
   if (nome === "atendimentos") {
-    paginaAtendimentos.classList.add("ativa");
-    marcarMenuAtivo(menuAtendimentos);
+    atend.classList.add("ativa");
+    marcarMenuAtivo("menuAtendimentos");
     renderizarTabela();
   } else {
-    paginaInicio.classList.add("ativa");
-    marcarMenuAtivo(menuInicio);
+    inicio.classList.add("ativa");
+    marcarMenuAtivo("menuInicio");
     atualizarCards();
   }
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo(0, 0);
 }
 
-menuInicio.addEventListener("click", () => {
-  mostrarPagina("inicio");
-});
+const menuInicio = $("menuInicio");
+const menuAtendimentos = $("menuAtendimentos");
+const btnNovoAtendimentoTopo = $("btnNovoAtendimentoTopo");
 
-menuAtendimentos.addEventListener("click", () => {
-  mostrarPagina("atendimentos");
-});
+if (menuInicio) {
+  menuInicio.addEventListener("click", () => mostrarPagina("inicio"));
+}
+
+if (menuAtendimentos) {
+  menuAtendimentos.addEventListener("click", () => mostrarPagina("atendimentos"));
+}
 
 if (btnNovoAtendimentoTopo) {
   btnNovoAtendimentoTopo.addEventListener("click", () => abrirModal());
 }
+
+migrarDadosAntigos();
+mostrarDataAtual();
+atualizarTela();
