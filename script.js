@@ -438,12 +438,10 @@ function atualizarRelatorios() {
 function obterDadosBonificacao() {
   const inicial = $("bonificacaoDataInicial")?.value || "";
   const final = $("bonificacaoDataFinal")?.value || "";
-  const atendente = $("bonificacaoAtendente")?.value || "";
 
   return atendimentos.filter(item => {
     if (inicial && item.data < inicial) return false;
     if (final && item.data > final) return false;
-    if (atendente && item.atendente !== atendente) return false;
     return true;
   });
 }
@@ -454,28 +452,22 @@ function atualizarBonificacao() {
   const lista = obterDadosBonificacao();
   const total = lista.length;
   const resolvidos = lista.filter(a => a.resolutividade === "Resolvido").length;
-  const chatmix = lista.filter(a => (a.canal || "Chatmix") === "Chatmix").length;
-  const ligacoes = lista.filter(a => a.canal === "Ligação").length;
+  const taxaEquipe = total ? Math.round((resolvidos / total) * 100) : 0;
 
-  $("bonifTotal").textContent = total;
-  $("bonifResolvidos").textContent = resolvidos;
-  $("bonifChatmix").textContent = chatmix;
-  $("bonifLigacoes").textContent = ligacoes;
+  if ($("bonifTotal")) $("bonifTotal").textContent = total;
+  if ($("bonifResolvidos")) $("bonifResolvidos").textContent = resolvidos;
+  if ($("bonifTaxaEquipe")) $("bonifTaxaEquipe").textContent = `${taxaEquipe}%`;
 
   const nomes = ["Guilherme", "Ronald", "Ivo", "Juarez"];
-  const filtro = $("bonificacaoAtendente")?.value || "";
-  const nomesExibidos = filtro ? [filtro] : nomes;
 
-  const ranking = nomesExibidos.map(nome => {
+  const ranking = nomes.map(nome => {
     const itens = lista.filter(a => a.atendente === nome);
     const qtd = itens.length;
     const ok = itens.filter(a => a.resolutividade === "Resolvido").length;
     const nao = qtd - ok;
-    const chats = itens.filter(a => (a.canal || "Chatmix") === "Chatmix").length;
-    const calls = itens.filter(a => a.canal === "Ligação").length;
     const percentual = qtd ? Math.round((ok / qtd) * 100) : 0;
 
-    return { nome, qtd, ok, nao, chats, calls, percentual };
+    return { nome, qtd, ok, nao, percentual };
   }).sort((a, b) =>
     b.percentual - a.percentual ||
     b.ok - a.ok ||
@@ -483,26 +475,47 @@ function atualizarBonificacao() {
     a.nome.localeCompare(b.nome)
   );
 
-  $("tabelaBonificacao").innerHTML = ranking.map((item, indice) => {
-    const medalha =
-      indice === 0 ? "🥇" :
-      indice === 1 ? "🥈" :
-      indice === 2 ? "🥉" :
-      `${indice + 1}º`;
+  const rankingEl = $("rankingBonificacao");
 
-    return `
-      <tr>
-        <td><span class="posicao-ranking">${medalha}</span></td>
-        <td><strong>${escaparHTML(item.nome)}</strong></td>
-        <td>${item.qtd}</td>
-        <td>${item.ok}</td>
-        <td>${item.nao}</td>
-        <td>${item.chats}</td>
-        <td>${item.calls}</td>
-        <td><strong>${item.percentual}%</strong></td>
-      </tr>
-    `;
-  }).join("");
+  if (rankingEl) {
+    rankingEl.innerHTML = ranking.map((item, indice) => {
+      const medalha =
+        indice === 0 ? "🥇" :
+        indice === 1 ? "🥈" :
+        indice === 2 ? "🥉" : "🏅";
+
+      return `
+        <article class="ranking-card">
+          <div class="ranking-posicao">${indice + 1}º</div>
+          <div class="ranking-medalha">${medalha}</div>
+          <h4>${escaparHTML(item.nome)}</h4>
+          <strong>${item.percentual}%</strong>
+          <span>
+            ${item.qtd} ${item.qtd === 1 ? "atendimento" : "atendimentos"}
+            • ${item.ok} ${item.ok === 1 ? "resolvido" : "resolvidos"}
+          </span>
+        </article>
+      `;
+    }).join("");
+  }
+
+  const lider = ranking.find(item => item.qtd > 0);
+
+  if (lider) {
+    if ($("bonifLiderNome")) $("bonifLiderNome").textContent = lider.nome;
+    if ($("bonifLiderTaxa")) $("bonifLiderTaxa").textContent = `${lider.percentual}%`;
+    if ($("bonifLiderResumo")) {
+      $("bonifLiderResumo").textContent =
+        `${lider.ok} resolvidos em ${lider.qtd} atendimentos no período selecionado.`;
+    }
+  } else {
+    if ($("bonifLiderNome")) $("bonifLiderNome").textContent = "Nenhum atendimento";
+    if ($("bonifLiderTaxa")) $("bonifLiderTaxa").textContent = "0%";
+    if ($("bonifLiderResumo")) {
+      $("bonifLiderResumo").textContent =
+        "Cadastre atendimentos para gerar o ranking da equipe.";
+    }
+  }
 }
 
 const menuInicio = $("menuInicio");
@@ -553,7 +566,6 @@ if ($("btnLimparBonificacao")) {
   $("btnLimparBonificacao").addEventListener("click", () => {
     $("bonificacaoDataInicial").value = "";
     $("bonificacaoDataFinal").value = "";
-    $("bonificacaoAtendente").value = "";
     atualizarBonificacao();
   });
 }
