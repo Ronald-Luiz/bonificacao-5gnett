@@ -3194,3 +3194,375 @@ footer {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+
+/* =========================================================
+   BONIFICAÇÃO — PERFORMANCE CENTER V4
+   Painel executivo de desempenho e metas.
+   ========================================================= */
+
+#paginaBonificacao .bonificacao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+#paginaBonificacao .bonificacao-metas-topo {
+  display: flex;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 7px;
+  background: rgba(255,255,255,.06);
+}
+
+#paginaBonificacao .bonificacao-metas-topo > div {
+  min-width: 120px;
+  padding: 10px 14px;
+  background: #0a0c0e;
+}
+
+#paginaBonificacao .bonificacao-metas-topo span,
+#paginaBonificacao .bonificacao-metas-topo small {
+  display: block;
+  color: #68717a;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: .7px;
+}
+
+#paginaBonificacao .bonificacao-metas-topo strong {
+  display: inline-block;
+  margin-top: 3px;
+  color: #e9ebed;
+  font-size: 14px;
+}
+
+#paginaBonificacao .bonificacao-metas-topo small {
+  display: inline-block;
+  margin-left: 5px;
+  color: #d8ae2c;
+}
+
+#paginaBonificacao .bonificacao-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto auto;
+  gap: 10px;
+  align-items: end;
+  padding: 13px 14px;
+  margin: 14px 0;
+  border-radius: 7px !important;
+  background: #090b0d !important;
+  box-shadow: none !important;
+}
+
+#paginaBonificacao .bonificacao-toolbar input {
+  height: 35px;
+  min-height: 35px;
+  border-radius: 6px;
+  background: #07090a !important;
+}
+
+#paginaBonificacao .bonificacao-toolbar button {
+  min-height: 35px;
+  border-radius: 6px;
+}
+
+/* KPIs da bonificação */
+#paginaBonificacao .performance-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin: 0 0 14px;
+  padding: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 7px;
+  background: rgba(255,255,255,.05);
+}
+
+#paginaBonificacao .performance-kpis .bonificacao-resumo-item {
+  min-height: 74px;
+  padding: 14px 17px;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #090b0d !important;
+}
+
+#paginaBonificacao .performance-kpis span {
+  color: #6e7780;
+  font-size: 8px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: .45px;
+}
+
+#paginaBonificacao .performance-kpis strong {
+  display: block;
+  margin-top: 6px;
+  color: #f2f3f4;
+  font-size: 21px;
+  letter-spacing: -.5px;
+}
+
+/* Líder */
+#paginaBonificacao .performance-lider {
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: 50px 1fr auto;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 20px;
+  padding: 18px 20px;
+  border: 1px solid rgba(216,174,44,.24) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(90deg, rgba(216,174,44,.055), transparent 38%),
+    #090b0d !important;
+  box-shadow: none !important;
+}
+
+#paginaBonificacao .performance-lider-selo {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(216,174,44,.28);
+  border-radius: 7px;
+  background: rgba(216,174,44,.06);
+  color: #e5bd42;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+#paginaBonificacao .bonificacao-destaque-texto > span {
+  color: #b89735;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+}
+
+#paginaBonificacao .bonificacao-destaque-texto h3 {
+  margin: 5px 0 4px;
+  color: #f5f6f7;
+  font-size: 24px;
+  letter-spacing: -.7px;
+}
+
+#paginaBonificacao .bonificacao-destaque-texto p {
+  margin: 0;
+  color: #7e8790;
+  font-size: 9px;
+}
+
+#paginaBonificacao .bonificacao-destaque-taxa {
+  min-width: 130px;
+  padding-left: 22px;
+  border-left: 1px solid rgba(216,174,44,.18);
+  text-align: right;
+}
+
+#paginaBonificacao .bonificacao-destaque-taxa span {
+  color: #777f87;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: .8px;
+}
+
+#paginaBonificacao .bonificacao-destaque-taxa strong {
+  display: block;
+  margin-top: 5px;
+  color: #e7bd3d;
+  font-size: 25px;
+}
+
+/* Ranking */
+#paginaBonificacao .performance-ranking {
+  margin-top: 0;
+}
+
+#paginaBonificacao .performance-ranking .section-header {
+  align-items: flex-end;
+  margin-bottom: 11px;
+}
+
+#paginaBonificacao .performance-ranking .section-header h3 {
+  margin: 0 0 3px;
+  color: #e9ebed;
+  font-size: 16px;
+}
+
+#paginaBonificacao .performance-ranking .section-header > div > span:last-child {
+  color: #68717a;
+  font-size: 9px;
+}
+
+#paginaBonificacao .ranking-legenda {
+  display: flex;
+  gap: 14px;
+  color: #727b84;
+  font-size: 8px;
+}
+
+#paginaBonificacao .ranking-legenda span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#paginaBonificacao .ranking-legenda i {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+}
+
+#paginaBonificacao .legenda-meta { background: #0787ff; }
+#paginaBonificacao .legenda-superior { background: #d8ae2c; }
+
+#paginaBonificacao .ranking-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+}
+
+#paginaBonificacao .ranking-card {
+  position: relative;
+  min-height: 145px;
+  padding: 17px 15px;
+  border: 1px solid rgba(255,255,255,.075) !important;
+  border-radius: 7px !important;
+  background: #090b0d !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+#paginaBonificacao .ranking-card:first-child {
+  border-color: rgba(216,174,44,.20) !important;
+  background:
+    linear-gradient(180deg, rgba(216,174,44,.045), transparent 55%),
+    #090b0d !important;
+}
+
+#paginaBonificacao .ranking-posicao {
+  color: #68717a;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .6px;
+}
+
+#paginaBonificacao .ranking-medalha {
+  display: none !important;
+}
+
+#paginaBonificacao .ranking-card h4 {
+  margin: 17px 0 7px !important;
+  color: #e9ebed;
+  font-size: 13px !important;
+  text-align: left !important;
+}
+
+#paginaBonificacao .ranking-card strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #e1b83b !important;
+  font-size: 21px !important;
+  line-height: 1;
+  text-align: left !important;
+}
+
+#paginaBonificacao .ranking-card span {
+  display: block;
+  color: #717a83 !important;
+  font-size: 8px !important;
+  line-height: 1.55;
+  text-align: left !important;
+}
+
+/* Regras */
+#paginaBonificacao .bonificacao-regras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+  margin-top: 14px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 7px;
+  background: #080a0c;
+}
+
+#paginaBonificacao .bonificacao-regras h3 {
+  margin: 0;
+  color: #dfe2e4;
+  font-size: 13px;
+}
+
+#paginaBonificacao .regra-pontos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+#paginaBonificacao .regra-pontos-grid span {
+  padding: 6px 8px;
+  border: 1px solid rgba(255,255,255,.065);
+  border-radius: 5px;
+  background: #0d0f11;
+  color: #858e97;
+  font-size: 8px;
+}
+
+#paginaBonificacao .regra-pontos-grid b {
+  margin-right: 4px;
+  color: #d7dde1;
+}
+
+#paginaBonificacao .regra-pontos-grid .regra-negativa {
+  border-color: rgba(239,83,96,.14);
+  color: #bd7c82;
+}
+
+#paginaBonificacao .regra-negativa b {
+  color: #e4878f;
+}
+
+@media (max-width: 1000px) {
+  #paginaBonificacao .ranking-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #paginaBonificacao .bonificacao-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 720px) {
+  #paginaBonificacao .bonificacao-toolbar,
+  #paginaBonificacao .performance-kpis {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #paginaBonificacao .performance-lider {
+    grid-template-columns: 44px 1fr;
+  }
+
+  #paginaBonificacao .bonificacao-destaque-taxa {
+    grid-column: 1 / -1;
+    padding: 12px 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(216,174,44,.15);
+    text-align: left;
+  }
+
+  #paginaBonificacao .bonificacao-regras {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  #paginaBonificacao .regra-pontos-grid {
+    justify-content: flex-start;
+  }
+}
