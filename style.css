@@ -2454,3 +2454,462 @@ body {
 footer {
   border-top-color: rgba(255,255,255,.065) !important;
 }
+
+
+/* =========================================================
+   CENTRAL OPERACIONAL 5GNETT — CORPORATE UI V2
+   Nova dinâmica visual: CRM / painel administrativo.
+   ========================================================= */
+
+body {
+  background-image:
+    linear-gradient(rgba(3,4,5,.965), rgba(3,4,5,.985)),
+    url("fundo-5gnett.jpg") !important;
+}
+
+.main {
+  padding-left: 26px;
+  padding-right: 26px;
+}
+
+.sidebar {
+  width: 220px;
+  padding: 22px 12px 18px;
+}
+
+.logo {
+  padding: 0 8px 22px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.logo-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  font-size: 15px;
+}
+
+.logo h1 {
+  font-size: 20px;
+  letter-spacing: .2px;
+}
+
+.logo span {
+  font-size: 8px;
+  letter-spacing: 1.65px;
+  color: #6f7780;
+}
+
+.menu {
+  gap: 4px;
+}
+
+.menu-item {
+  min-height: 42px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 650;
+  padding: 0 12px;
+}
+
+.menu-item > span:first-child {
+  width: 22px;
+  opacity: .82;
+}
+
+.menu-item.active {
+  background: #111315 !important;
+  border-color: rgba(255,255,255,.08) !important;
+  box-shadow: inset 2px 0 0 #0787ff !important;
+  color: #fff;
+}
+
+.sidebar-footer {
+  color: #7d858e;
+}
+
+.topbar-corporativa {
+  height: 72px;
+  padding: 0;
+  background: rgba(4,5,6,.58);
+  backdrop-filter: blur(14px);
+}
+
+.busca-global {
+  max-width: 530px;
+  height: 38px;
+  border-radius: 8px;
+}
+
+.busca-global input {
+  font-size: 12px;
+}
+
+.usuario-corporativo .avatar {
+  width: 34px;
+  height: 34px;
+  font-size: 11px;
+}
+
+.usuario-corporativo .usuario-info strong {
+  font-size: 12px;
+}
+
+.usuario-corporativo .usuario-info span {
+  font-size: 9px;
+}
+
+/* Dashboard principal */
+.dashboard-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 34px 0 24px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.dashboard-eyebrow,
+.page-eyebrow,
+.workspace-kicker {
+  display: block;
+  margin-bottom: 8px;
+  color: #6f879a;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 1.65px;
+}
+
+.dashboard-hero h2 {
+  margin: 0;
+  color: #f6f7f8;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.dashboard-hero p {
+  margin: 9px 0 0;
+  color: #89919a;
+  font-size: 12px;
+}
+
+.dashboard-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard-hero .data-atual {
+  min-height: 38px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  background: #0d0f11 !important;
+  box-shadow: none !important;
+  font-size: 10px;
+}
+
+.dashboard-cta {
+  min-height: 38px;
+  border-radius: 7px !important;
+  font-size: 11px;
+}
+
+/* KPIs horizontais, sem cara de "cards de site" */
+.dashboard-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin: 24px 0;
+  padding: 1px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255,255,255,.055);
+}
+
+.dashboard-kpis .kpi-card {
+  position: relative;
+  min-height: 122px;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 23px 22px 20px 25px;
+  background: #0b0d0f !important;
+  box-shadow: none !important;
+}
+
+.dashboard-kpis .kpi-card:hover {
+  transform: none;
+  background: #0e1012 !important;
+}
+
+.kpi-acento {
+  position: absolute;
+  left: 0;
+  top: 23px;
+  width: 2px;
+  height: 44px;
+  border-radius: 0 2px 2px 0;
+}
+
+.kpi-azul { background: #0787ff; }
+.kpi-verde { background: #19c783; }
+.kpi-vermelho { background: #ef5360; }
+.kpi-dourado { background: #e8b92d; }
+
+.kpi-conteudo {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-conteudo span {
+  color: #9098a1;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.kpi-conteudo strong {
+  margin-top: 7px;
+  color: #f7f8f9;
+  font-size: 29px;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.kpi-conteudo small {
+  margin-top: 10px;
+  color: #59616a;
+  font-size: 9px;
+}
+
+/* Workspace: muda a dinâmica da home */
+.dashboard-workspace {
+  display: grid;
+  grid-template-columns: 1.35fr .65fr;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.workspace-panel {
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  background: #0a0c0e;
+}
+
+.workspace-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.workspace-head h3 {
+  margin: 0;
+  color: #e9ebed;
+  font-size: 15px;
+}
+
+.workspace-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.workspace-action {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px;
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 8px;
+  background: #0e1012;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: .16s ease;
+}
+
+.workspace-action:hover {
+  background: #131619;
+  border-color: rgba(255,255,255,.13);
+  transform: translateY(-1px);
+}
+
+.workspace-action.principal {
+  border-color: rgba(7,135,255,.24);
+  background: rgba(7,135,255,.065);
+}
+
+.workspace-action-icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 7px;
+  background: #080a0c;
+  color: #9ba4ad;
+  font-size: 16px;
+}
+
+.workspace-action.principal .workspace-action-icon {
+  color: #6cb9ff;
+  border-color: rgba(7,135,255,.20);
+}
+
+.workspace-action strong,
+.workspace-action small {
+  display: block;
+}
+
+.workspace-action strong {
+  font-size: 11px;
+}
+
+.workspace-action small {
+  margin-top: 4px;
+  color: #68717a;
+  font-size: 9px;
+}
+
+.status-online {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 1px solid rgba(25,199,131,.17);
+  border-radius: 999px;
+  background: rgba(25,199,131,.055);
+  color: #79d9ae;
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.status-online i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #19c783;
+  box-shadow: 0 0 8px rgba(25,199,131,.42);
+}
+
+.status-linhas {
+  display: grid;
+  gap: 0;
+}
+
+.status-linhas > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 11px 0;
+  border-top: 1px solid rgba(255,255,255,.055);
+}
+
+.status-linhas span {
+  color: #6d757e;
+  font-size: 9px;
+}
+
+.status-linhas strong {
+  color: #cdd1d5;
+  font-size: 9px;
+}
+
+/* Demais páginas com linguagem de software corporativo */
+.page-header {
+  padding-top: 30px;
+  padding-bottom: 19px;
+  border-bottom: 1px solid rgba(255,255,255,.065);
+}
+
+.page-header h2 {
+  font-size: 25px !important;
+  letter-spacing: -.75px !important;
+}
+
+.page-header p {
+  color: #7f8790;
+  font-size: 11px;
+}
+
+.filtros-operacionais,
+.filtros-relatorios,
+.filtros-bonificacao {
+  margin-top: 16px;
+  border-radius: 9px !important;
+  background: #0a0c0e !important;
+  box-shadow: none !important;
+}
+
+#paginaAtendimentos .table-container {
+  border-radius: 9px !important;
+  box-shadow: none !important;
+}
+
+#paginaAtendimentos .table-container thead {
+  background: #111315 !important;
+}
+
+#paginaAtendimentos .table-container tbody tr {
+  background: #090b0d !important;
+}
+
+#paginaAtendimentos .table-container tbody tr:nth-child(even) {
+  background: #0c0e10 !important;
+}
+
+#paginaAtendimentos .table-container tbody tr:hover {
+  background: #121518 !important;
+}
+
+/* Footer menos chamativo */
+footer {
+  margin-top: 24px;
+  color: #555e67;
+}
+
+/* Responsivo */
+@media (max-width: 1050px) {
+  .dashboard-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .main {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .dashboard-hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dashboard-hero-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-kpis {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .workspace-actions {
+    grid-template-columns: 1fr;
+  }
+}
