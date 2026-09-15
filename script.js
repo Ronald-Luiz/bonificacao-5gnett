@@ -3,8 +3,13 @@
 const STORAGE_KEY = "5gnett_atendimentos_v2";
 const LEGACY_KEY = "5gnett_atendimentos_v1";
 
-let atendimentos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+const SUPABASE_URL = "https://zgeenyqdbtxzkorfkmnq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_H2YIRxy8bVpA6UhUx2G2Yg_unN0ziVe";
+const SUPABASE_TABLE = "atendimentos";
+
+let atendimentos = [];
 let editandoId = null;
+let bancoOnline = false;
 
 const $ = id => document.getElementById(id);
 
@@ -13,8 +18,79 @@ const modalRelato = $("modalRelato");
 const form = $("formAtendimento");
 const tabela = $("tabelaAtendimentos");
 
-function salvarDados() {
+function salvarBackupLocal() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(atendimentos));
+}
+
+function headersSupabase(prefer = "") {
+  const headers = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": `Bearer ${SUPABASE_KEY}`,
+    "Content-Type": "application/json"
+  };
+
+  if (prefer) headers["Prefer"] = prefer;
+  return headers;
+}
+
+async function carregarAtendimentosOnline() {
+  const resposta = await fetch(
+    `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}?select=*&order=created_at.desc`,
+    { headers: headersSupabase() }
+  );
+
+  if (!resposta.ok) {
+    throw new Error(await resposta.text());
+  }
+
+  atendimentos = await resposta.json();
+  bancoOnline = true;
+  salvarBackupLocal();
+  atualizarTela();
+  atualizarRelatorios();
+  atualizarBonificacao();
+}
+
+async function inserirAtendimentoOnline(registro) {
+  const resposta = await fetch(
+    `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`,
+    {
+      method: "POST",
+      headers: headersSupabase("return=representation"),
+      body: JSON.stringify(registro)
+    }
+  );
+
+  if (!resposta.ok) throw new Error(await resposta.text());
+  const dados = await resposta.json();
+  return dados[0];
+}
+
+async function atualizarAtendimentoOnline(id, registro) {
+  const resposta = await fetch(
+    `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}?id=eq.${encodeURIComponent(id)}`,
+    {
+      method: "PATCH",
+      headers: headersSupabase("return=representation"),
+      body: JSON.stringify(registro)
+    }
+  );
+
+  if (!resposta.ok) throw new Error(await resposta.text());
+  const dados = await resposta.json();
+  return dados[0];
+}
+
+async function excluirAtendimentoOnline(id) {
+  const resposta = await fetch(
+    `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}?id=eq.${encodeURIComponent(id)}`,
+    {
+      method: "DELETE",
+      headers: headersSupabase()
+    }
+  );
+
+  if (!resposta.ok) throw new Error(await resposta.text());
 }
 
 function hojeISO() {
@@ -50,7 +126,7 @@ function migrarDadosAntigos() {
     relato: a.relato || ""
   }));
 
-  salvarDados();
+  salvarBackupLocal();
 }
 
 function atualizarCamposCanal() {
@@ -211,23 +287,31 @@ function atualizarTela() {
 }
 
 function editarAtendimento(id) {
-  const item = atendimentos.find(a => a.id === id);
+  const item = atendimentos.find(a => String(a.id) === String(id));
   if (item) abrirModal(item);
 }
 
-function excluirAtendimento(id) {
-  const item = atendimentos.find(a => a.id === id);
+async function excluirAtendimento(id) {
+  const item = atendimentos.find(a => String(a.id) === String(id));
   if (!item) return;
 
   if (!confirm(`Deseja excluir o atendimento de ${item.nome}?`)) return;
 
-  atendimentos = atendimentos.filter(a => a.id !== id);
-  salvarDados();
-  atualizarTela();
+  try {
+    await excluirAtendimentoOnline(id);
+    atendimentos = atendimentos.filter(a => String(a.id) !== String(id));
+    salvarBackupLocal();
+    atualizarTela();
+    atualizarRelatorios();
+    atualizarBonificacao();
+  } catch (erro) {
+    console.error("Erro ao excluir atendimento:", erro);
+    alert("Não foi possível excluir o atendimento do banco online.");
+  }
 }
 
 function verRelato(id) {
-  const item = atendimentos.find(a => a.id === id);
+  const item = atendimentos.find(a => String(a.id) === String(id));
   if (!item) return;
 
   $("relatoIdentificacao").textContent =
@@ -245,7 +329,7 @@ window.editarAtendimento = editarAtendimento;
 window.excluirAtendimento = excluirAtendimento;
 window.verRelato = verRelato;
 
-form.addEventListener("submit", e => {
+form.addEventListener("submit", async e => {
   e.preventDefault();
 
   const canal = $("canal").value;
@@ -263,7 +347,6 @@ form.addEventListener("submit", e => {
   }
 
   const registro = {
-    id: editandoId || `${Date.now()}-${Math.random().toString(16).slice(2)}`,
     data: $("data").value,
     atendente: $("atendente").value,
     codigo: $("codigo").value.trim(),
@@ -276,15 +359,26 @@ form.addEventListener("submit", e => {
     relato: canal === "Ligação" ? $("relato").value.trim() : ""
   };
 
-  if (editandoId) {
-    atendimentos = atendimentos.map(a => a.id === editandoId ? registro : a);
-  } else {
-    atendimentos.unshift(registro);
-  }
+  try {
+    if (editandoId !== null) {
+      const atualizado = await atualizarAtendimentoOnline(editandoId, registro);
+      atendimentos = atendimentos.map(a =>
+        String(a.id) === String(editandoId) ? atualizado : a
+      );
+    } else {
+      const novo = await inserirAtendimentoOnline(registro);
+      atendimentos.unshift(novo);
+    }
 
-  salvarDados();
-  fecharModal();
-  atualizarTela();
+    salvarBackupLocal();
+    fecharModal();
+    atualizarTela();
+    atualizarRelatorios();
+    atualizarBonificacao();
+  } catch (erro) {
+    console.error("Erro ao salvar atendimento:", erro);
+    alert("Não foi possível salvar o atendimento no banco online. Verifique a conexão e as políticas do Supabase.");
+  }
 });
 
 $("canal").addEventListener("change", atualizarCamposCanal);
@@ -579,8 +673,24 @@ if ($("btnLimparBonificacao")) {
   });
 }
 
-migrarDadosAntigos();
-mostrarDataAtual();
-atualizarTela();
-atualizarRelatorios();
-atualizarBonificacao();
+async function iniciarSistema() {
+  mostrarDataAtual();
+
+  try {
+    await carregarAtendimentosOnline();
+    console.log("5GNETT: banco online conectado.");
+  } catch (erro) {
+    console.error("5GNETT: falha ao carregar Supabase.", erro);
+
+    const backup = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    atendimentos = Array.isArray(backup) ? backup : [];
+
+    atualizarTela();
+    atualizarRelatorios();
+    atualizarBonificacao();
+
+    alert("Não foi possível conectar ao banco online. O sistema exibirá o backup local deste navegador.");
+  }
+}
+
+iniciarSistema();
