@@ -24,7 +24,7 @@
       <button class="menu-item" id="menuAtendimentos"><span>▤</span>Atendimentos</button>
       <button class="menu-item" id="menuNovoAtendimento"><span>＋</span>Novo Atendimento</button>
       <button class="menu-item"><span>🏆</span>Bonificação</button>
-      <button class="menu-item"><span>▥</span>Relatórios</button>
+      <button class="menu-item" id="menuRelatorios"><span>▥</span>Relatórios</button>
       <button class="menu-item"><span>⚙</span>Configurações</button>
     </nav>
 
@@ -188,6 +188,130 @@
         </table>
       </div>
     </section>
+    </div>
+
+
+    <div id="paginaRelatorios" class="pagina-app">
+      <section class="page-header">
+        <div>
+          <h2>▥ Relatórios</h2>
+          <p>Acompanhe os resultados dos atendimentos e o desempenho da equipe.</p>
+        </div>
+      </section>
+
+      <section class="filtros filtros-relatorios">
+        <div class="campo">
+          <label>Data inicial</label>
+          <input type="date" id="relatorioDataInicial">
+        </div>
+
+        <div class="campo">
+          <label>Data final</label>
+          <input type="date" id="relatorioDataFinal">
+        </div>
+
+        <div class="campo">
+          <label>Atendente</label>
+          <select id="relatorioAtendente">
+            <option value="">Todos</option>
+            <option value="Guilherme">Guilherme</option>
+            <option value="Ronald">Ronald</option>
+            <option value="Ivo">Ivo</option>
+            <option value="Juarez">Juarez</option>
+          </select>
+        </div>
+
+        <button class="btn-filtrar" id="btnFiltrarRelatorio" type="button">Filtrar</button>
+        <button class="btn-limpar" id="btnLimparRelatorio" type="button">Limpar</button>
+      </section>
+
+      <section class="cards cards-relatorios">
+        <article class="card">
+          <div class="card-icon azul">🎧</div>
+          <div>
+            <span>Total no período</span>
+            <strong id="relTotal">0</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon verde">✓</div>
+          <div>
+            <span>Resolvidos</span>
+            <strong id="relResolvidos">0</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon vermelho">✕</div>
+          <div>
+            <span>Não Resolvidos</span>
+            <strong id="relNaoResolvidos">0</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon dourado">%</div>
+          <div>
+            <span>Resolutividade</span>
+            <strong id="relTaxa">0%</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="relatorio-blocos">
+        <article class="relatorio-painel">
+          <div class="section-header">
+            <div>
+              <h3>💬 Canais de atendimento</h3>
+              <span>Distribuição entre Chatmix e Ligações</span>
+            </div>
+          </div>
+
+          <div class="relatorio-mini-cards">
+            <div class="relatorio-mini-card">
+              <span>Chatmix</span>
+              <strong id="relChatmix">0</strong>
+            </div>
+            <div class="relatorio-mini-card">
+              <span>Ligações</span>
+              <strong id="relLigacoes">0</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="relatorio-painel">
+          <div class="section-header">
+            <div>
+              <h3>👥 Desempenho por atendente</h3>
+              <span>Resumo individual da equipe</span>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="tabela-relatorio">
+              <thead>
+                <tr>
+                  <th>Atendente</th>
+                  <th>Total</th>
+                  <th>Resolvidos</th>
+                  <th>Não Resolvidos</th>
+                  <th>Chatmix</th>
+                  <th>Ligações</th>
+                  <th>Resolutividade</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaRelatorioAtendentes">
+                <tr>
+                  <td colspan="7" style="text-align:center;padding:30px;color:#91a4b7">
+                    Os dados serão carregados automaticamente.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
     </div>
 
     <footer>
