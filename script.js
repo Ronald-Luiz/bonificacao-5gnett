@@ -346,6 +346,7 @@ function mostrarPagina(nome) {
   const paginas = [
     $("paginaInicio"),
     $("paginaAtendimentos"),
+    $("paginaBonificacao"),
     $("paginaRelatorios")
   ].filter(Boolean);
 
@@ -355,10 +356,15 @@ function mostrarPagina(nome) {
     $("paginaAtendimentos").classList.add("ativa");
     marcarMenuAtivo($("menuAtendimentos"));
     renderizarTabela();
+  } else if (nome === "bonificacao") {
+    $("paginaBonificacao").classList.add("ativa");
+    marcarMenuAtivo($("menuBonificacao"));
+    atualizarBonificacao();
   } else if (nome === "relatorios") {
     $("paginaRelatorios").classList.add("ativa");
     marcarMenuAtivo($("menuRelatorios"));
     atualizarRelatorios();
+atualizarBonificacao();
   } else {
     $("paginaInicio").classList.add("ativa");
     marcarMenuAtivo($("menuInicio"));
@@ -429,9 +435,81 @@ function atualizarRelatorios() {
   }).join("");
 }
 
+
+function obterDadosBonificacao() {
+  const inicial = $("bonificacaoDataInicial")?.value || "";
+  const final = $("bonificacaoDataFinal")?.value || "";
+  const atendente = $("bonificacaoAtendente")?.value || "";
+
+  return atendimentos.filter(item => {
+    if (inicial && item.data < inicial) return false;
+    if (final && item.data > final) return false;
+    if (atendente && item.atendente !== atendente) return false;
+    return true;
+  });
+}
+
+function atualizarBonificacao() {
+  if (!$("paginaBonificacao")) return;
+
+  const lista = obterDadosBonificacao();
+  const total = lista.length;
+  const resolvidos = lista.filter(a => a.resolutividade === "Resolvido").length;
+  const chatmix = lista.filter(a => (a.canal || "Chatmix") === "Chatmix").length;
+  const ligacoes = lista.filter(a => a.canal === "Ligação").length;
+
+  $("bonifTotal").textContent = total;
+  $("bonifResolvidos").textContent = resolvidos;
+  $("bonifChatmix").textContent = chatmix;
+  $("bonifLigacoes").textContent = ligacoes;
+
+  const nomes = ["Guilherme", "Ronald", "Ivo", "Juarez"];
+  const filtro = $("bonificacaoAtendente")?.value || "";
+  const nomesExibidos = filtro ? [filtro] : nomes;
+
+  const ranking = nomesExibidos.map(nome => {
+    const itens = lista.filter(a => a.atendente === nome);
+    const qtd = itens.length;
+    const ok = itens.filter(a => a.resolutividade === "Resolvido").length;
+    const nao = qtd - ok;
+    const chats = itens.filter(a => (a.canal || "Chatmix") === "Chatmix").length;
+    const calls = itens.filter(a => a.canal === "Ligação").length;
+    const percentual = qtd ? Math.round((ok / qtd) * 100) : 0;
+
+    return { nome, qtd, ok, nao, chats, calls, percentual };
+  }).sort((a, b) =>
+    b.percentual - a.percentual ||
+    b.ok - a.ok ||
+    b.qtd - a.qtd ||
+    a.nome.localeCompare(b.nome)
+  );
+
+  $("tabelaBonificacao").innerHTML = ranking.map((item, indice) => {
+    const medalha =
+      indice === 0 ? "🥇" :
+      indice === 1 ? "🥈" :
+      indice === 2 ? "🥉" :
+      `${indice + 1}º`;
+
+    return `
+      <tr>
+        <td><span class="posicao-ranking">${medalha}</span></td>
+        <td><strong>${escaparHTML(item.nome)}</strong></td>
+        <td>${item.qtd}</td>
+        <td>${item.ok}</td>
+        <td>${item.nao}</td>
+        <td>${item.chats}</td>
+        <td>${item.calls}</td>
+        <td><strong>${item.percentual}%</strong></td>
+      </tr>
+    `;
+  }).join("");
+}
+
 const menuInicio = $("menuInicio");
 const menuAtendimentos = $("menuAtendimentos");
 const menuRelatorios = $("menuRelatorios");
+const menuBonificacao = $("menuBonificacao");
 const btnNovoAtendimentoTopo = $("btnNovoAtendimentoTopo");
 
 if (menuInicio) {
@@ -460,6 +538,20 @@ if ($("btnLimparRelatorio")) {
     $("relatorioDataFinal").value = "";
     $("relatorioAtendente").value = "";
     atualizarRelatorios();
+  });
+}
+
+
+if ($("btnFiltrarBonificacao")) {
+  $("btnFiltrarBonificacao").addEventListener("click", atualizarBonificacao);
+}
+
+if ($("btnLimparBonificacao")) {
+  $("btnLimparBonificacao").addEventListener("click", () => {
+    $("bonificacaoDataInicial").value = "";
+    $("bonificacaoDataFinal").value = "";
+    $("bonificacaoAtendente").value = "";
+    atualizarBonificacao();
   });
 }
 
