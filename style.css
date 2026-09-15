@@ -932,38 +932,18 @@ footer strong {
   }
 }
 
-/* =========================================================
-   NAVEGAÇÃO ENTRE PÁGINAS DO PAINEL
-   ========================================================= */
-
+/* =========================
+   PAGINAS / NAVEGACAO
+   ========================= */
 .pagina-app {
   display: none;
-  animation: paginaEntrada 0.18s ease;
 }
-
 .pagina-app.ativa {
   display: block;
 }
-
 #paginaAtendimentos .page-header {
   align-items: center;
 }
-
-#paginaAtendimentos .page-header .btn-novo {
-  flex: 0 0 auto;
-}
-
-@keyframes paginaEntrada {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (max-width: 560px) {
   #paginaAtendimentos .page-header .btn-novo {
     width: 100%;
