@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>5GNETT | Controle de Atendimentos</title>
-  <link rel="stylesheet" href="style.css?v=20260915-4">
+  <link rel="stylesheet" href="style.css?v=20260915-5">
 </head>
 
 <body>
@@ -23,7 +23,7 @@
       <button class="menu-item active" id="menuInicio"><span>⌂</span>Início</button>
       <button class="menu-item" id="menuAtendimentos"><span>▤</span>Atendimentos</button>
       <button class="menu-item" id="menuNovoAtendimento"><span>＋</span>Novo Atendimento</button>
-      <button class="menu-item"><span>🏆</span>Bonificação</button>
+      <button class="menu-item" id="menuBonificacao"><span>🏆</span>Bonificação</button>
       <button class="menu-item" id="menuRelatorios"><span>▥</span>Relatórios</button>
       <button class="menu-item"><span>⚙</span>Configurações</button>
     </nav>
@@ -190,6 +190,109 @@
     </section>
     </div>
 
+
+
+    <div id="paginaBonificacao" class="pagina-app">
+      <section class="page-header">
+        <div>
+          <h2>🏆 Bonificação</h2>
+          <p>Acompanhe a pontuação e o desempenho da equipe com base nos atendimentos registrados.</p>
+        </div>
+      </section>
+
+      <section class="filtros filtros-bonificacao">
+        <div class="campo">
+          <label>Data inicial</label>
+          <input type="date" id="bonificacaoDataInicial">
+        </div>
+
+        <div class="campo">
+          <label>Data final</label>
+          <input type="date" id="bonificacaoDataFinal">
+        </div>
+
+        <div class="campo">
+          <label>Atendente</label>
+          <select id="bonificacaoAtendente">
+            <option value="">Todos</option>
+            <option value="Guilherme">Guilherme</option>
+            <option value="Ronald">Ronald</option>
+            <option value="Ivo">Ivo</option>
+            <option value="Juarez">Juarez</option>
+          </select>
+        </div>
+
+        <button class="btn-filtrar" id="btnFiltrarBonificacao" type="button">Filtrar</button>
+        <button class="btn-limpar" id="btnLimparBonificacao" type="button">Limpar</button>
+      </section>
+
+      <section class="cards cards-bonificacao">
+        <article class="card">
+          <div class="card-icon dourado">🏆</div>
+          <div>
+            <span>Total considerado</span>
+            <strong id="bonifTotal">0</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon verde">✓</div>
+          <div>
+            <span>Resolvidos</span>
+            <strong id="bonifResolvidos">0</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon azul">💬</div>
+          <div>
+            <span>Chatmix</span>
+            <strong id="bonifChatmix">0</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon azul">📞</div>
+          <div>
+            <span>Ligações</span>
+            <strong id="bonifLigacoes">0</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="atendimentos">
+        <div class="section-header">
+          <div>
+            <h3>🏅 Desempenho da equipe</h3>
+            <span>Sem valores financeiros nesta etapa</span>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="tabela-bonificacao">
+            <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Atendente</th>
+                <th>Atendimentos</th>
+                <th>Resolvidos</th>
+                <th>Não Resolvidos</th>
+                <th>Chatmix</th>
+                <th>Ligações</th>
+                <th>Resolutividade</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaBonificacao">
+              <tr>
+                <td colspan="8" style="text-align:center;padding:30px;color:#91a4b7">
+                  Os dados serão calculados automaticamente.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
 
     <div id="paginaRelatorios" class="pagina-app">
       <section class="page-header">
@@ -476,6 +579,6 @@
   </div>
 </div>
 
-<script src="script.js?v=20260915-4"></script>
+<script src="script.js?v=20260915-5"></script>
 </body>
 </html>
