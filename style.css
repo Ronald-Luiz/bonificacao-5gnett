@@ -1795,3 +1795,146 @@ body.gerencia-logada .menu-gerencia::after {
     padding: 0 9px;
   }
 }
+
+
+/* =========================================================
+   CORREÇÃO FINAL — TABELA DE ATENDIMENTOS LEGÍVEL (12 COLUNAS)
+   Mantém a tabela inteira na tela e separa Canal / Serviço.
+   ========================================================= */
+
+#paginaAtendimentos .table-container {
+  overflow-x: hidden !important;
+}
+
+#paginaAtendimentos .table-container table {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+}
+
+#paginaAtendimentos .table-container th,
+#paginaAtendimentos .table-container td {
+  padding: 11px 8px !important;
+  font-size: 11px !important;
+  line-height: 1.35;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+/* 12 colunas = 100% */
+#paginaAtendimentos .table-container th:nth-child(1),
+#paginaAtendimentos .table-container td:nth-child(1) { width: 3% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(2),
+#paginaAtendimentos .table-container td:nth-child(2) { width: 7% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(3),
+#paginaAtendimentos .table-container td:nth-child(3) { width: 6% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(4),
+#paginaAtendimentos .table-container td:nth-child(4) { width: 14% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(5),
+#paginaAtendimentos .table-container td:nth-child(5) { width: 8% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(6),
+#paginaAtendimentos .table-container td:nth-child(6) { width: 8% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(7),
+#paginaAtendimentos .table-container td:nth-child(7) { width: 8% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(8),
+#paginaAtendimentos .table-container td:nth-child(8) { width: 10% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(9),
+#paginaAtendimentos .table-container td:nth-child(9) { width: 9% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(10),
+#paginaAtendimentos .table-container td:nth-child(10) { width: 11% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(11),
+#paginaAtendimentos .table-container td:nth-child(11) { width: 10% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(12),
+#paginaAtendimentos .table-container td:nth-child(12) { width: 6% !important; }
+
+/* Canal fica como um badge independente, sem encostar no serviço */
+#paginaAtendimentos .canal-chatmix,
+#paginaAtendimentos .canal-ligacao {
+  display: inline-flex !important;
+  width: auto !important;
+  max-width: 100%;
+  padding: 6px 7px !important;
+  font-size: 10px !important;
+  line-height: 1.15;
+  white-space: nowrap !important;
+}
+
+/* Serviço ocupa somente sua própria célula */
+#paginaAtendimentos .table-container td:nth-child(8) {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+/* Pontuação compacta, mas legível */
+#paginaAtendimentos .acao-pontuar,
+#paginaAtendimentos .pontuacao-leitura {
+  width: 100%;
+  max-width: 100%;
+  padding: 6px 5px;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+/* Conversa / relato */
+#paginaAtendimentos .link-chat,
+#paginaAtendimentos .btn-relato {
+  display: inline-flex;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  padding: 6px 5px !important;
+  font-size: 10px !important;
+  line-height: 1.25;
+}
+
+/* Ações centralizadas */
+#paginaAtendimentos .table-container th:nth-child(12),
+#paginaAtendimentos .table-container td:nth-child(12) {
+  text-align: center;
+}
+
+#paginaAtendimentos .acao-editar,
+#paginaAtendimentos .acao-excluir {
+  width: 28px;
+  height: 28px;
+  margin: 2px 1px;
+}
+
+/* Em notebook/tela estreita, reduz só o necessário */
+@media (max-width: 1100px) {
+  #paginaAtendimentos .table-container th,
+  #paginaAtendimentos .table-container td {
+    padding: 9px 5px !important;
+    font-size: 10px !important;
+  }
+
+  #paginaAtendimentos .canal-chatmix,
+  #paginaAtendimentos .canal-ligacao,
+  #paginaAtendimentos .link-chat,
+  #paginaAtendimentos .btn-relato,
+  #paginaAtendimentos .acao-pontuar,
+  #paginaAtendimentos .pontuacao-leitura {
+    font-size: 9px !important;
+  }
+}
+
+@media (max-width: 820px) {
+  #paginaAtendimentos .table-container th,
+  #paginaAtendimentos .table-container td {
+    padding: 7px 3px !important;
+    font-size: 9px !important;
+  }
+}
