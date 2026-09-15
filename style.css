@@ -1465,3 +1465,188 @@ footer strong {
     align-items: flex-start;
   }
 }
+
+
+/* =========================================================
+   CONFIGURAÇÕES
+   ========================================================= */
+
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.config-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(13, 34, 51, 0.96), rgba(5, 17, 28, 0.96));
+  box-shadow: var(--shadow);
+}
+
+.config-card-topo {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 18px;
+}
+
+.config-icone {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 199, 44, 0.28);
+  border-radius: 12px;
+  background: rgba(255, 199, 44, 0.08);
+  font-size: 21px;
+}
+
+.config-card-topo h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.config-card-topo p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.config-equipe-lista {
+  display: grid;
+  gap: 9px;
+}
+
+.config-atendente {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 11px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: rgba(3, 15, 25, 0.58);
+}
+
+.config-atendente > span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 199, 44, 0.12);
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.config-atendente strong {
+  font-size: 13px;
+}
+
+.config-atendente small {
+  padding: 4px 8px;
+  border: 1px solid rgba(69, 211, 137, 0.25);
+  border-radius: 999px;
+  background: rgba(69, 211, 137, 0.08);
+  color: #72e3a7;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.config-status-box {
+  padding: 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: rgba(3, 15, 25, 0.58);
+}
+
+.config-status-box > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.config-status-box strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.config-status-box p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.config-aviso {
+  margin-top: 11px;
+  padding: 11px 12px;
+  border: 1px dashed rgba(255, 199, 44, 0.28);
+  border-radius: 9px;
+  background: rgba(255, 199, 44, 0.05);
+  color: #cbd6df;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.config-aviso.importante {
+  border-color: rgba(74, 169, 255, 0.28);
+  background: rgba(74, 169, 255, 0.05);
+}
+
+.config-info-linhas {
+  display: grid;
+  gap: 8px;
+}
+
+.config-info-linhas > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.config-info-linhas > div:last-child {
+  border-bottom: 0;
+}
+
+.config-info-linhas span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.config-info-linhas strong {
+  text-align: right;
+  font-size: 11px;
+}
+
+@media (max-width: 850px) {
+  .config-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .config-card {
+    padding: 15px;
+  }
+
+  .config-info-linhas > div {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .config-info-linhas strong {
+    text-align: left;
+  }
+}
