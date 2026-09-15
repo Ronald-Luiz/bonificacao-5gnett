@@ -1938,3 +1938,291 @@ body.gerencia-logada .menu-gerencia::after {
     font-size: 9px !important;
   }
 }
+
+
+/* =========================================================
+   ACABAMENTO PREMIUM — ATENDIMENTOS 5GNETT
+   Apenas visual: não altera dados, filtros ou funcionamento.
+   ========================================================= */
+
+#paginaAtendimentos .page-header h2 {
+  letter-spacing: -1px;
+  font-weight: 850;
+}
+
+#paginaAtendimentos .filtros {
+  border-color: rgba(67, 117, 157, 0.42);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(9, 28, 43, 0.94), rgba(4, 17, 28, 0.94));
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+#paginaAtendimentos .section-header {
+  margin-top: 3px;
+  margin-bottom: 12px;
+}
+
+#paginaAtendimentos .section-header h3 {
+  font-size: 21px;
+  letter-spacing: -0.35px;
+}
+
+#paginaAtendimentos .table-container {
+  overflow-x: hidden !important;
+  border: 1px solid rgba(61, 108, 145, 0.55);
+  border-radius: 14px;
+  background: rgba(4, 17, 28, 0.93);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+#paginaAtendimentos .table-container table {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+}
+
+#paginaAtendimentos .table-container thead {
+  background:
+    linear-gradient(180deg, rgba(19, 48, 70, 0.98), rgba(11, 34, 52, 0.98));
+}
+
+#paginaAtendimentos .table-container th {
+  height: 42px;
+  padding: 10px 7px !important;
+  color: #dce9f4;
+  border-bottom: 1px solid rgba(71, 126, 166, 0.48);
+  font-size: 10px !important;
+  font-weight: 850;
+  line-height: 1.15;
+  letter-spacing: .15px;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+#paginaAtendimentos .table-container td {
+  height: 60px;
+  padding: 10px 7px !important;
+  color: #e9f0f6;
+  border-bottom: 1px solid rgba(38, 68, 91, 0.58);
+  font-size: 10.5px !important;
+  line-height: 1.32;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+#paginaAtendimentos .table-container tbody tr {
+  background: rgba(5, 20, 32, 0.88);
+}
+
+#paginaAtendimentos .table-container tbody tr:nth-child(even) {
+  background: rgba(8, 25, 39, 0.91);
+}
+
+#paginaAtendimentos .table-container tbody tr:hover {
+  background: rgba(13, 43, 65, 0.97);
+  box-shadow: inset 3px 0 0 rgba(7, 135, 255, 0.8);
+}
+
+/* Distribuição das 12 colunas = 100% */
+#paginaAtendimentos .table-container th:nth-child(1),
+#paginaAtendimentos .table-container td:nth-child(1) { width: 3% !important; text-align: center; }
+
+#paginaAtendimentos .table-container th:nth-child(2),
+#paginaAtendimentos .table-container td:nth-child(2) { width: 7% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(3),
+#paginaAtendimentos .table-container td:nth-child(3) { width: 6% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(4),
+#paginaAtendimentos .table-container td:nth-child(4) { width: 14% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(5),
+#paginaAtendimentos .table-container td:nth-child(5) { width: 8% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(6),
+#paginaAtendimentos .table-container td:nth-child(6) { width: 8% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(7),
+#paginaAtendimentos .table-container td:nth-child(7) { width: 8% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(8),
+#paginaAtendimentos .table-container td:nth-child(8) { width: 10% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(9),
+#paginaAtendimentos .table-container td:nth-child(9) { width: 9% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(10),
+#paginaAtendimentos .table-container td:nth-child(10) { width: 11% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(11),
+#paginaAtendimentos .table-container td:nth-child(11) { width: 10% !important; }
+
+#paginaAtendimentos .table-container th:nth-child(12),
+#paginaAtendimentos .table-container td:nth-child(12) { width: 6% !important; text-align: center; }
+
+/* Badges mais refinados */
+#paginaAtendimentos .status-resolvido,
+#paginaAtendimentos .status-nao-resolvido,
+#paginaAtendimentos .canal-chatmix,
+#paginaAtendimentos .canal-ligacao {
+  min-height: 29px;
+  max-width: 100%;
+  padding: 6px 8px !important;
+  border-radius: 8px;
+  font-size: 9.5px !important;
+  font-weight: 800;
+  line-height: 1.1;
+  white-space: nowrap !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+#paginaAtendimentos .status-resolvido {
+  color: #a9f6cf;
+  background: linear-gradient(180deg, rgba(7, 126, 76, .46), rgba(5, 92, 58, .40));
+  border-color: rgba(38, 218, 132, .30);
+}
+
+#paginaAtendimentos .status-nao-resolvido {
+  color: #ffc3c8;
+  background: linear-gradient(180deg, rgba(167, 39, 50, .43), rgba(115, 27, 36, .38));
+  border-color: rgba(255, 88, 99, .28);
+}
+
+#paginaAtendimentos .canal-chatmix {
+  color: #b8dcff;
+  background: linear-gradient(180deg, rgba(0, 107, 214, .28), rgba(0, 69, 139, .25));
+  border-color: rgba(45, 153, 255, .34);
+}
+
+#paginaAtendimentos .canal-ligacao {
+  color: #e3d0ff;
+  background: linear-gradient(180deg, rgba(124, 68, 211, .28), rgba(81, 44, 143, .24));
+  border-color: rgba(166, 108, 255, .34);
+}
+
+/* Pontuação como selo premium */
+#paginaAtendimentos .acao-pontuar,
+#paginaAtendimentos .pontuacao-leitura {
+  width: 100%;
+  min-height: 34px;
+  max-width: 100%;
+  padding: 6px 6px !important;
+  border-radius: 9px;
+  font-size: 9px !important;
+  font-weight: 850;
+  line-height: 1.22;
+  text-align: center;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+#paginaAtendimentos .acao-pontuar {
+  border: 1px solid rgba(255, 199, 44, .42);
+  background:
+    linear-gradient(180deg, rgba(255, 199, 44, .14), rgba(255, 199, 44, .06));
+  color: #ffe18a;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+#paginaAtendimentos .acao-pontuar:hover {
+  transform: translateY(-1px);
+  background:
+    linear-gradient(180deg, rgba(255, 199, 44, .22), rgba(255, 199, 44, .10));
+  border-color: rgba(255, 199, 44, .68);
+}
+
+#paginaAtendimentos .pontuacao-leitura {
+  border: 1px solid rgba(255, 199, 44, .22);
+  background: rgba(255, 199, 44, .055);
+  color: #dce6ef;
+}
+
+/* Conversa / relato mais discreto e alinhado */
+#paginaAtendimentos .link-chat,
+#paginaAtendimentos .btn-relato {
+  width: 100%;
+  min-height: 32px;
+  max-width: 100%;
+  justify-content: center;
+  padding: 6px 5px !important;
+  border-radius: 8px;
+  font-size: 9.5px !important;
+  line-height: 1.15;
+  text-align: center;
+  white-space: normal !important;
+}
+
+#paginaAtendimentos .link-chat {
+  background: rgba(7, 135, 255, .06);
+}
+
+#paginaAtendimentos .btn-relato {
+  background: rgba(142, 71, 255, .10);
+}
+
+/* Botões de ação consistentes */
+#paginaAtendimentos .acao-editar,
+#paginaAtendimentos .acao-excluir {
+  width: 29px;
+  height: 29px;
+  margin: 2px 1px;
+  border-radius: 8px;
+  transition: .18s ease;
+  box-shadow: 0 5px 14px rgba(0,0,0,.18);
+}
+
+#paginaAtendimentos .acao-editar:hover,
+#paginaAtendimentos .acao-excluir:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.12);
+}
+
+/* Evita visual "grudado" entre Canal e Tipo de Serviço */
+#paginaAtendimentos .table-container td:nth-child(7) {
+  padding-right: 10px !important;
+}
+
+#paginaAtendimentos .table-container td:nth-child(8) {
+  padding-left: 10px !important;
+}
+
+/* Notebook: mantém elegância e a tabela inteira */
+@media (max-width: 1180px) {
+  #paginaAtendimentos .table-container th {
+    padding: 9px 5px !important;
+    font-size: 9px !important;
+  }
+
+  #paginaAtendimentos .table-container td {
+    padding: 9px 5px !important;
+    font-size: 9.5px !important;
+  }
+
+  #paginaAtendimentos .status-resolvido,
+  #paginaAtendimentos .status-nao-resolvido,
+  #paginaAtendimentos .canal-chatmix,
+  #paginaAtendimentos .canal-ligacao,
+  #paginaAtendimentos .link-chat,
+  #paginaAtendimentos .btn-relato,
+  #paginaAtendimentos .acao-pontuar,
+  #paginaAtendimentos .pontuacao-leitura {
+    font-size: 8.5px !important;
+  }
+}
+
+@media (max-width: 820px) {
+  #paginaAtendimentos .table-container th,
+  #paginaAtendimentos .table-container td {
+    padding: 7px 3px !important;
+    font-size: 8.5px !important;
+  }
+}
