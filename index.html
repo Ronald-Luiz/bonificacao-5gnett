@@ -179,6 +179,7 @@
               <th>Canal</th>
               <th>Tipo de Serviço</th>
               <th>Resolutividade</th>
+              <th>⭐ Pontos</th>
               <th>Conversa / Relato</th>
               <th>Ações</th>
             </tr>
@@ -225,8 +226,8 @@
           <p id="bonifLiderResumo">Cadastre atendimentos para gerar o ranking da equipe.</p>
         </div>
         <div class="bonificacao-destaque-taxa">
-          <span>Resolutividade</span>
-          <strong id="bonifLiderTaxa">0%</strong>
+          <span>Pontuação</span>
+          <strong id="bonifLiderTaxa">0 pts</strong>
         </div>
       </section>
 
@@ -234,7 +235,7 @@
         <div class="section-header">
           <div>
             <h3>🏅 Ranking da equipe</h3>
-            <span>Classificação por resolutividade, resolvidos e volume de atendimentos.</span>
+            <span>Classificação por pontos, média, resolutividade e volume de atendimentos.</span>
           </div>
         </div>
 
@@ -289,8 +290,8 @@
       </section>
 
       <div class="bonificacao-aviso">
-        <strong>Bonificação financeira ainda não configurada.</strong>
-        <span>Primeiro vamos definir a regra de pontuação para que o cálculo seja justo e automático.</span>
+        <strong>Sistema de pontuação ativo.</strong>
+        <span>Simples 3 pts • Normal 4 pts • Complexo 5 pts • Excelente 6 pts • Erro leve −2 pts • Erro grave −5 pts.</span>
       </div>
     </div>
 
@@ -455,8 +456,8 @@
 
           <div class="config-status-box">
             <span>REGRA ATUAL</span>
-            <strong>Ranking de desempenho</strong>
-            <p>Resolutividade → resolvidos → total de atendimentos.</p>
+            <strong>Pontuação individual</strong>
+            <p>Simples 3 • Normal 4 • Complexo 5 • Excelente 6 • Erro leve −2 • Erro grave −5.</p>
           </div>
 
           <div class="config-aviso">
@@ -475,12 +476,12 @@
 
           <div class="config-status-box">
             <span>STATUS ATUAL</span>
-            <strong>Armazenamento local</strong>
-            <p>Os dados ficam salvos somente neste navegador/dispositivo.</p>
+            <strong>Supabase online</strong>
+            <p>Os atendimentos são sincronizados pelo banco de dados online, com backup local no navegador.</p>
           </div>
 
           <div class="config-aviso importante">
-            Banco de dados online ainda será configurado para sincronizar os registros entre a equipe e a gerência.
+            Banco de dados online conectado e sincronizado com a equipe e a Gerência.
           </div>
         </article>
 
@@ -685,6 +686,6 @@
   </div>
 </div>
 
-<script src="script.js?v=20260915-8"></script>
+<script src="script.js?v=20260915-10"></script>
 </body>
 </html>
