@@ -983,39 +983,76 @@ footer strong {
   font-size: 11px;
 }
 
-/* As 11 colunas somam exatamente 100% */
+/* As 12 colunas somam exatamente 100% */
 .table-container th:nth-child(1),
 .table-container td:nth-child(1) { width: 3%; }
 
 .table-container th:nth-child(2),
-.table-container td:nth-child(2) { width: 8%; }
+.table-container td:nth-child(2) { width: 7%; }
 
 .table-container th:nth-child(3),
-.table-container td:nth-child(3) { width: 7%; }
+.table-container td:nth-child(3) { width: 6%; }
 
 .table-container th:nth-child(4),
-.table-container td:nth-child(4) { width: 17%; }
+.table-container td:nth-child(4) { width: 14%; }
 
 .table-container th:nth-child(5),
-.table-container td:nth-child(5) { width: 9%; }
+.table-container td:nth-child(5) { width: 8%; }
 
 .table-container th:nth-child(6),
-.table-container td:nth-child(6) { width: 8%; }
+.table-container td:nth-child(6) { width: 7%; }
 
 .table-container th:nth-child(7),
-.table-container td:nth-child(7) { width: 8%; }
+.table-container td:nth-child(7) { width: 7%; }
 
 .table-container th:nth-child(8),
-.table-container td:nth-child(8) { width: 12%; }
+.table-container td:nth-child(8) { width: 10%; }
 
 .table-container th:nth-child(9),
-.table-container td:nth-child(9) { width: 10%; }
+.table-container td:nth-child(9) { width: 9%; }
 
 .table-container th:nth-child(10),
-.table-container td:nth-child(10) { width: 11%; }
+.table-container td:nth-child(10) { width: 12%; }
 
 .table-container th:nth-child(11),
-.table-container td:nth-child(11) { width: 7%; }
+.table-container td:nth-child(11) { width: 10%; }
+
+.table-container th:nth-child(12),
+.table-container td:nth-child(12) { width: 7%; }
+
+/* PONTUAÇÃO */
+.acao-pontuar,
+.pontuacao-leitura {
+  max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 6px;
+  border-radius: 7px;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.acao-pontuar {
+  border: 1px solid rgba(255, 199, 44, 0.42);
+  background: rgba(255, 199, 44, 0.10);
+  color: #ffe28a;
+}
+
+.acao-pontuar:hover {
+  background: rgba(255, 199, 44, 0.19);
+  border-color: rgba(255, 199, 44, 0.72);
+}
+
+.pontuacao-leitura {
+  color: #d9e3ec;
+  background: rgba(255, 199, 44, 0.06);
+  border: 1px solid rgba(255, 199, 44, 0.16);
+}
 
 .table-container .link-chat,
 .table-container .btn-relato {
@@ -1758,4 +1795,3 @@ body.gerencia-logada .menu-gerencia::after {
     padding: 0 9px;
   }
 }
-
