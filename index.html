@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>5GNETT | Controle de Atendimentos</title>
-  <link rel="stylesheet" href="style.css?v=20260915-9">
+  <title>5GNETT | Central de Atendimento</title>
+  <link rel="stylesheet" href="style.css?v=20260915-11">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
       <div class="logo-icon">◉</div>
       <div>
         <h1>5GNETT</h1>
-        <span>CONECTANDO PESSOAS</span>
+        <span>CENTRAL OPERACIONAL</span>
       </div>
     </div>
 
@@ -30,14 +30,14 @@
 
     <div class="sidebar-footer">
       <strong>5GNETT</strong>
-      <span>Controle de Atendimentos</span>
+      <span>Operações de Suporte</span>
     </div>
   </aside>
 
   <main class="main">
 
-    <header class="topbar">
-      <div class="search-box">
+    <header class="topbar topbar-corporativa">
+      <div class="search-box busca-global">
         <span>⌕</span>
         <input
           type="text"
@@ -46,7 +46,7 @@
         >
       </div>
 
-      <div class="usuario">
+      <div class="usuario usuario-corporativo">
         <div class="avatar">5G</div>
         <div class="usuario-info">
           <strong id="usuarioNome">Equipe 5GNETT</strong>
@@ -58,47 +58,91 @@
     </header>
 
     <div id="paginaInicio" class="pagina-app ativa">
-    <section class="page-header">
-      <div>
-        <h2>📋 Controle de Atendimentos</h2>
-        <p>Registre as conversas e ligações realizadas pela equipe.</p>
-      </div>
-      <div class="data-atual" id="dataAtual">--</div>
-    </section>
-
-    <section class="cards">
-      <article class="card">
-        <div class="card-icon azul">🎧</div>
-        <div>
-          <span>Total de Atendimentos</span>
-          <strong id="totalAtendimentos">0</strong>
+      <section class="dashboard-hero">
+        <div class="dashboard-hero-copy">
+          <span class="dashboard-eyebrow">CENTRAL OPERACIONAL • SUPORTE TÉCNICO</span>
+          <h2>Visão geral do atendimento</h2>
+          <p>Acompanhe a operação da equipe e acesse rapidamente os registros de suporte.</p>
         </div>
-      </article>
-
-      <article class="card">
-        <div class="card-icon verde">✓</div>
-        <div>
-          <span>Resolvidos</span>
-          <strong id="totalResolvidos">0</strong>
+        <div class="dashboard-hero-actions">
+          <div class="data-atual" id="dataAtual">--</div>
+          <button class="btn-novo dashboard-cta" id="btnNovoAtendimentoInicio" type="button" onclick="document.getElementById('btnNovoAtendimento').click()">＋ Registrar atendimento</button>
         </div>
-      </article>
+      </section>
 
-      <article class="card">
-        <div class="card-icon vermelho">✕</div>
-        <div>
-          <span>Não Resolvidos</span>
-          <strong id="totalNaoResolvidos">0</strong>
-        </div>
-      </article>
+      <section class="dashboard-kpis cards">
+        <article class="card kpi-card">
+          <div class="kpi-acento kpi-azul"></div>
+          <div class="kpi-conteudo">
+            <span>Total de atendimentos</span>
+            <strong id="totalAtendimentos">0</strong>
+            <small>Registros no sistema</small>
+          </div>
+        </article>
 
-      <article class="card">
-        <div class="card-icon dourado">%</div>
-        <div>
-          <span>Resolutividade</span>
-          <strong id="taxaResolutividade">0%</strong>
-        </div>
-      </article>
-    </section>
+        <article class="card kpi-card">
+          <div class="kpi-acento kpi-verde"></div>
+          <div class="kpi-conteudo">
+            <span>Resolvidos</span>
+            <strong id="totalResolvidos">0</strong>
+            <small>Atendimentos concluídos</small>
+          </div>
+        </article>
+
+        <article class="card kpi-card">
+          <div class="kpi-acento kpi-vermelho"></div>
+          <div class="kpi-conteudo">
+            <span>Não resolvidos</span>
+            <strong id="totalNaoResolvidos">0</strong>
+            <small>Demandas pendentes</small>
+          </div>
+        </article>
+
+        <article class="card kpi-card kpi-destaque">
+          <div class="kpi-acento kpi-dourado"></div>
+          <div class="kpi-conteudo">
+            <span>Resolutividade</span>
+            <strong id="taxaResolutividade">0%</strong>
+            <small>Eficiência operacional</small>
+          </div>
+        </article>
+      </section>
+
+      <section class="dashboard-workspace">
+        <article class="workspace-panel">
+          <div class="workspace-head">
+            <div>
+              <span class="workspace-kicker">ACESSO RÁPIDO</span>
+              <h3>Operação de atendimento</h3>
+            </div>
+          </div>
+          <div class="workspace-actions">
+            <button type="button" class="workspace-action principal" onclick="document.getElementById('btnNovoAtendimento').click()">
+              <span class="workspace-action-icon">＋</span>
+              <span><strong>Novo atendimento</strong><small>Registrar conversa ou ligação</small></span>
+            </button>
+            <button type="button" class="workspace-action" onclick="document.getElementById('menuAtendimentos').click()">
+              <span class="workspace-action-icon">▤</span>
+              <span><strong>Consultar registros</strong><small>Pesquisar, filtrar e editar</small></span>
+            </button>
+          </div>
+        </article>
+
+        <article class="workspace-panel workspace-status">
+          <div class="workspace-head">
+            <div>
+              <span class="workspace-kicker">AMBIENTE</span>
+              <h3>Status do sistema</h3>
+            </div>
+            <span class="status-online"><i></i> Operacional</span>
+          </div>
+          <div class="status-linhas">
+            <div><span>Banco de dados</span><strong>Supabase Online</strong></div>
+            <div><span>Equipe</span><strong>Suporte Técnico</strong></div>
+            <div><span>Módulo</span><strong>Atendimentos</strong></div>
+          </div>
+        </article>
+      </section>
     </div>
 
     <div id="paginaAtendimentos" class="pagina-app">
@@ -110,7 +154,7 @@
         <button class="btn-novo" id="btnNovoAtendimentoTopo" type="button">＋ Novo Atendimento</button>
       </section>
 
-    <section class="filtros">
+    <section class="filtros filtros-operacionais">
       <div class="campo">
         <label>Data inicial</label>
         <input type="date" id="dataInicial">
@@ -157,7 +201,7 @@
     <section class="atendimentos">
       <div class="section-header">
         <div>
-          <h3>☷ Atendimentos</h3>
+          <h3>Registros de atendimento</h3>
           <span id="contadorRegistros">Total de 0 registros</span>
         </div>
 
@@ -198,7 +242,7 @@
     <div id="paginaBonificacao" class="pagina-app">
       <section class="page-header bonificacao-header">
         <div>
-          <h2>🏆 Bonificação</h2>
+          <span class="page-eyebrow">GESTÃO</span><h2>Bonificação</h2>
           <p>Ranking de desempenho da equipe de atendimento.</p>
         </div>
       </section>
@@ -298,7 +342,7 @@
     <div id="paginaRelatorios" class="pagina-app">
       <section class="page-header">
         <div>
-          <h2>▥ Relatórios</h2>
+          <span class="page-eyebrow">GESTÃO</span><h2>Relatórios</h2>
           <p>Acompanhe os resultados dos atendimentos e o desempenho da equipe.</p>
         </div>
       </section>
@@ -422,7 +466,7 @@
     <div id="paginaConfiguracoes" class="pagina-app">
       <section class="page-header">
         <div>
-          <h2>⚙️ Configurações</h2>
+          <span class="page-eyebrow">ADMINISTRAÇÃO</span><h2>Configurações</h2>
           <p>Gerencie as preferências e informações básicas do sistema.</p>
         </div>
       </section>
@@ -506,7 +550,7 @@
     <footer>
       <div>
         <strong>5GNETT</strong>
-        <span> • Controle interno de atendimentos</span>
+        <span> • Central de Atendimento</span>
       </div>
       <span>Equipe de Suporte Técnico</span>
     </footer>
@@ -686,6 +730,6 @@
   </div>
 </div>
 
-<script src="script.js?v=20260915-10"></script>
+<script src="script.js?v=20260915-11"></script>
 </body>
 </html>
