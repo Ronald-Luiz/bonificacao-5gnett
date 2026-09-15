@@ -2226,3 +2226,231 @@ body.gerencia-logada .menu-gerencia::after {
     font-size: 8.5px !important;
   }
 }
+
+
+/* =========================================================
+   5GNETT — BLACK PREMIUM
+   Identidade preto/grafite. Azul apenas em ações.
+   ========================================================= */
+
+:root {
+  --bg: #050607;
+  --sidebar: rgba(4, 5, 6, 0.97);
+  --panel: rgba(10, 11, 13, 0.95);
+  --panel-strong: rgba(13, 14, 16, 0.98);
+  --border: rgba(255, 255, 255, 0.10);
+  --border-soft: rgba(255, 255, 255, 0.065);
+  --text: #f5f6f7;
+  --muted: #8f969e;
+  --shadow: 0 20px 55px rgba(0, 0, 0, 0.48);
+}
+
+body {
+  background-image:
+    linear-gradient(rgba(2, 3, 4, 0.91), rgba(2, 3, 4, 0.97)),
+    url("fundo-5gnett.jpg") !important;
+  background-color: #030405 !important;
+}
+
+.app {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.sidebar {
+  background:
+    linear-gradient(180deg, rgba(6, 7, 8, 0.985), rgba(2, 3, 4, 0.99)) !important;
+  border-right-color: rgba(255,255,255,.075) !important;
+  box-shadow: 12px 0 40px rgba(0,0,0,.24);
+}
+
+.logo-icon {
+  background: linear-gradient(145deg, #15181c, #08090a) !important;
+  border: 1px solid rgba(255,255,255,.13);
+  box-shadow: 0 10px 25px rgba(0,0,0,.42) !important;
+}
+
+.menu-item {
+  color: #b9bec4;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,.045) !important;
+  border-color: rgba(255,255,255,.07) !important;
+}
+
+.menu-item.active {
+  background: linear-gradient(90deg, #17191c, #0c0d0f) !important;
+  border-color: rgba(255,255,255,.13) !important;
+  box-shadow:
+    inset 3px 0 0 #0787ff,
+    0 9px 24px rgba(0,0,0,.32) !important;
+}
+
+.topbar {
+  border-bottom-color: rgba(255,255,255,.075) !important;
+}
+
+.search-box {
+  background: rgba(7,8,10,.91) !important;
+  border-color: rgba(255,255,255,.11) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
+}
+
+.avatar {
+  background: linear-gradient(145deg, #1c2024, #090a0c) !important;
+  border-color: rgba(255,255,255,.13) !important;
+}
+
+.data-atual,
+.card,
+.filtros,
+.relatorio-painel,
+.relatorio-mini-card,
+.config-card,
+.config-status-box,
+.config-atendente {
+  background:
+    linear-gradient(145deg, rgba(15,16,18,.96), rgba(7,8,9,.97)) !important;
+  border-color: rgba(255,255,255,.09) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  background: #090a0c !important;
+  border-color: rgba(255,255,255,.12) !important;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  border-color: rgba(7,135,255,.75) !important;
+  box-shadow: 0 0 0 3px rgba(7,135,255,.10) !important;
+}
+
+.btn-limpar,
+.btn-cancelar {
+  background: #141619 !important;
+  border-color: rgba(255,255,255,.11) !important;
+}
+
+#paginaAtendimentos .filtros {
+  background:
+    linear-gradient(145deg, rgba(14,15,17,.97), rgba(7,8,9,.98)) !important;
+  border-color: rgba(255,255,255,.10) !important;
+}
+
+#paginaAtendimentos .table-container {
+  background: #08090a !important;
+  border-color: rgba(255,255,255,.105) !important;
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.52),
+    inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+#paginaAtendimentos .table-container thead {
+  background: linear-gradient(180deg, #17191c, #101113) !important;
+}
+
+#paginaAtendimentos .table-container th {
+  color: #cdd1d5 !important;
+  border-bottom-color: rgba(255,255,255,.10) !important;
+}
+
+#paginaAtendimentos .table-container td {
+  color: #e8eaec !important;
+  border-bottom-color: rgba(255,255,255,.065) !important;
+}
+
+#paginaAtendimentos .table-container tbody tr {
+  background: #090a0c !important;
+}
+
+#paginaAtendimentos .table-container tbody tr:nth-child(even) {
+  background: #0d0e10 !important;
+}
+
+#paginaAtendimentos .table-container tbody tr:hover {
+  background: #15171a !important;
+  box-shadow: inset 3px 0 0 rgba(7,135,255,.82) !important;
+}
+
+/* Azul permanece apenas onde representa ação */
+.btn-filtrar,
+.btn-novo,
+.btn-salvar,
+#paginaAtendimentos .acao-editar {
+  background: linear-gradient(180deg, #128cff, #0069d5) !important;
+}
+
+/* Canais menos saturados */
+#paginaAtendimentos .canal-chatmix {
+  color: #b9d9f8 !important;
+  background: rgba(7,135,255,.10) !important;
+  border-color: rgba(7,135,255,.27) !important;
+}
+
+#paginaAtendimentos .canal-ligacao {
+  color: #d8c8ee !important;
+  background: rgba(139,92,246,.10) !important;
+  border-color: rgba(139,92,246,.27) !important;
+}
+
+/* Status elegante */
+#paginaAtendimentos .status-resolvido {
+  color: #9ce8c1 !important;
+  background: rgba(22,216,135,.09) !important;
+  border-color: rgba(22,216,135,.25) !important;
+}
+
+#paginaAtendimentos .status-nao-resolvido {
+  color: #ffafb5 !important;
+  background: rgba(255,75,85,.09) !important;
+  border-color: rgba(255,75,85,.24) !important;
+}
+
+/* Dourado reservado à pontuação e gerência */
+#paginaAtendimentos .acao-pontuar,
+#paginaAtendimentos .pontuacao-leitura {
+  background: linear-gradient(180deg, rgba(255,199,44,.10), rgba(255,199,44,.035)) !important;
+  border-color: rgba(255,199,44,.25) !important;
+}
+
+.btn-login-gerencia {
+  background: linear-gradient(180deg, rgba(255,199,44,.13), rgba(255,199,44,.055)) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.28);
+}
+
+.bonificacao-destaque {
+  background:
+    radial-gradient(circle at 15% 50%, rgba(255,199,44,.09), transparent 34%),
+    linear-gradient(135deg, #151512, #08090a) !important;
+}
+
+.ranking-card {
+  background: linear-gradient(145deg, #111315, #08090a) !important;
+  border-color: rgba(255,255,255,.09) !important;
+}
+
+.ranking-card:first-child {
+  background:
+    linear-gradient(145deg, rgba(42,35,13,.52), #090a0b) !important;
+}
+
+/* Modais também em preto premium */
+.modal-content {
+  background:
+    linear-gradient(145deg, rgba(18,19,21,.99), rgba(7,8,9,.99)) !important;
+  border-color: rgba(255,255,255,.12) !important;
+}
+
+.fechar-modal {
+  background: #15171a !important;
+  border-color: rgba(255,255,255,.11) !important;
+}
+
+/* Rodapé */
+footer {
+  border-top-color: rgba(255,255,255,.065) !important;
+}
