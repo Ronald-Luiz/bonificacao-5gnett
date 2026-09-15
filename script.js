@@ -332,57 +332,6 @@ function mostrarDataAtual() {
 
 
 // =========================
-// NAVEGAÇÃO ENTRE INÍCIO E ATENDIMENTOS
-// =========================
-function marcarMenuAtivo(idAtivo) {
-  document.querySelectorAll(".menu-item").forEach(botao => {
-    botao.classList.remove("active");
-  });
-
-  const ativo = $(idAtivo);
-  if (ativo) ativo.classList.add("active");
-}
-
-function mostrarPagina(nome) {
-  const inicio = $("paginaInicio");
-  const atend = $("paginaAtendimentos");
-
-  if (!inicio || !atend) return;
-
-  inicio.classList.remove("ativa");
-  atend.classList.remove("ativa");
-
-  if (nome === "atendimentos") {
-    atend.classList.add("ativa");
-    marcarMenuAtivo("menuAtendimentos");
-    renderizarTabela();
-  } else {
-    inicio.classList.add("ativa");
-    marcarMenuAtivo("menuInicio");
-    atualizarCards();
-  }
-
-  window.scrollTo(0, 0);
-}
-
-const menuInicio = $("menuInicio");
-const menuAtendimentos = $("menuAtendimentos");
-const btnNovoAtendimentoTopo = $("btnNovoAtendimentoTopo");
-
-if (menuInicio) {
-  menuInicio.addEventListener("click", () => mostrarPagina("inicio"));
-}
-
-if (menuAtendimentos) {
-  menuAtendimentos.addEventListener("click", () => mostrarPagina("atendimentos"));
-}
-
-if (btnNovoAtendimentoTopo) {
-  btnNovoAtendimentoTopo.addEventListener("click", () => abrirModal());
-}
-
-
-// =========================
 // NAVEGAÇÃO DO PAINEL
 // =========================
 function marcarMenuAtivo(botao) {
