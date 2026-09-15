@@ -10,6 +10,10 @@ const SUPABASE_TABLE = "atendimentos";
 let atendimentos = [];
 let editandoId = null;
 let bancoOnline = false;
+let sessaoGerencia = null;
+let gerenciaAutorizada = false;
+const GERENCIA_UID = "f29980e0-5fbd-4d35-a374-945ed68e99fd";
+const AUTH_STORAGE_KEY = "5gnett_gerencia_session";
 
 const $ = id => document.getElementById(id);
 
@@ -25,7 +29,7 @@ function salvarBackupLocal() {
 function headersSupabase(prefer = "") {
   const headers = {
     "apikey": SUPABASE_KEY,
-    "Authorization": `Bearer ${SUPABASE_KEY}`,
+    "Authorization": `Bearer ${sessaoGerencia?.access_token || SUPABASE_KEY}`,
     "Content-Type": "application/json"
   };
 
@@ -91,6 +95,142 @@ async function excluirAtendimentoOnline(id) {
   );
 
   if (!resposta.ok) throw new Error(await resposta.text());
+}
+
+
+function headersAuth(token = "") {
+  const headers = {
+    "apikey": SUPABASE_KEY,
+    "Content-Type": "application/json"
+  };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  return headers;
+}
+
+function abrirLoginGerencia() {
+  $("erroLoginGerencia").hidden = true;
+  $("erroLoginGerencia").textContent = "";
+  $("modalLoginGerencia").classList.add("ativo");
+  setTimeout(() => $("emailGerencia")?.focus(), 50);
+}
+
+function fecharLoginGerencia() {
+  $("modalLoginGerencia").classList.remove("ativo");
+  $("formLoginGerencia")?.reset();
+  $("erroLoginGerencia").hidden = true;
+}
+
+function atualizarInterfaceGerencia() {
+  document.body.classList.toggle("gerencia-logada", gerenciaAutorizada);
+
+  if ($("btnLoginGerencia")) $("btnLoginGerencia").hidden = gerenciaAutorizada;
+  if ($("btnSairGerencia")) $("btnSairGerencia").hidden = !gerenciaAutorizada;
+
+  if ($("usuarioNome")) {
+    $("usuarioNome").textContent = gerenciaAutorizada ? "Gerência 5GNETT" : "Equipe 5GNETT";
+  }
+  if ($("usuarioPerfil")) {
+    $("usuarioPerfil").textContent = gerenciaAutorizada ? "Acesso administrativo" : "Suporte Técnico";
+  }
+
+  renderizarTabela();
+}
+
+async function validarGerencia(token, userId) {
+  if (!token || !userId || String(userId) !== GERENCIA_UID) return false;
+
+  const resposta = await fetch(
+    `${SUPABASE_URL}/rest/v1/gerencia?user_id=eq.${encodeURIComponent(userId)}&select=user_id`,
+    { headers: headersAuth(token) }
+  );
+
+  if (!resposta.ok) return false;
+  const dados = await resposta.json();
+  return Array.isArray(dados) && dados.some(item => String(item.user_id) === String(userId));
+}
+
+async function loginGerencia(email, senha) {
+  const resposta = await fetch(
+    `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+    {
+      method: "POST",
+      headers: headersAuth(),
+      body: JSON.stringify({ email, password: senha })
+    }
+  );
+
+  const dados = await resposta.json();
+  if (!resposta.ok) {
+    throw new Error(dados?.msg || dados?.error_description || "E-mail ou senha inválidos.");
+  }
+
+  const autorizado = await validarGerencia(dados.access_token, dados.user?.id);
+  if (!autorizado) {
+    throw new Error("Esta conta não possui acesso à Gerência.");
+  }
+
+  sessaoGerencia = dados;
+  gerenciaAutorizada = true;
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(dados));
+  atualizarInterfaceGerencia();
+  return true;
+}
+
+async function restaurarSessaoGerencia() {
+  try {
+    const salva = JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || "null");
+    if (!salva?.access_token || !salva?.user?.id) return;
+
+    const resposta = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      headers: headersAuth(salva.access_token)
+    });
+
+    if (!resposta.ok) {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      return;
+    }
+
+    const usuario = await resposta.json();
+    const autorizado = await validarGerencia(salva.access_token, usuario.id);
+
+    if (autorizado) {
+      sessaoGerencia = salva;
+      gerenciaAutorizada = true;
+    } else {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    }
+  } catch {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+  }
+
+  atualizarInterfaceGerencia();
+}
+
+async function sairGerencia() {
+  const token = sessaoGerencia?.access_token;
+
+  try {
+    if (token) {
+      await fetch(`${SUPABASE_URL}/auth/v1/logout`, {
+        method: "POST",
+        headers: headersAuth(token)
+      });
+    }
+  } catch (erro) {
+    console.warn("Não foi possível encerrar a sessão no servidor:", erro);
+  }
+
+  sessaoGerencia = null;
+  gerenciaAutorizada = false;
+  localStorage.removeItem(AUTH_STORAGE_KEY);
+  atualizarInterfaceGerencia();
+  mostrarPagina("inicio");
+}
+
+function exigirGerencia() {
+  if (gerenciaAutorizada) return true;
+  abrirLoginGerencia();
+  return false;
 }
 
 function hojeISO() {
@@ -274,8 +414,8 @@ function renderizarTabela() {
         <td>
           <button class="acao-editar" type="button"
             onclick="editarAtendimento('${item.id}')" title="Editar">✎</button>
-          <button class="acao-excluir" type="button"
-            onclick="excluirAtendimento('${item.id}')" title="Excluir">×</button>
+          ${gerenciaAutorizada ? `<button class="acao-excluir" type="button"
+            onclick="excluirAtendimento('${item.id}')" title="Excluir">×</button>` : ""}
         </td>
       </tr>`;
   }).join("");
@@ -292,6 +432,8 @@ function editarAtendimento(id) {
 }
 
 async function excluirAtendimento(id) {
+  if (!exigirGerencia()) return;
+
   const item = atendimentos.find(a => String(a.id) === String(id));
   if (!item) return;
 
@@ -402,6 +544,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (modal.classList.contains("ativo")) fecharModal();
     if (modalRelato.classList.contains("ativo")) fecharRelato();
+    if ($("modalLoginGerencia")?.classList.contains("ativo")) fecharLoginGerencia();
   }
 });
 
@@ -452,14 +595,17 @@ function mostrarPagina(nome) {
     marcarMenuAtivo($("menuAtendimentos"));
     renderizarTabela();
   } else if (nome === "bonificacao") {
+    if (!exigirGerencia()) return;
     $("paginaBonificacao").classList.add("ativa");
     marcarMenuAtivo($("menuBonificacao"));
     atualizarBonificacao();
   } else if (nome === "relatorios") {
+    if (!exigirGerencia()) return;
     $("paginaRelatorios").classList.add("ativa");
     marcarMenuAtivo($("menuRelatorios"));
     atualizarRelatorios();
   } else if (nome === "configuracoes") {
+    if (!exigirGerencia()) return;
     $("paginaConfiguracoes").classList.add("ativa");
     marcarMenuAtivo($("menuConfiguracoes"));
   } else {
@@ -673,8 +819,52 @@ if ($("btnLimparBonificacao")) {
   });
 }
 
+
+if ($("btnLoginGerencia")) $("btnLoginGerencia").addEventListener("click", abrirLoginGerencia);
+if ($("fecharLoginGerencia")) $("fecharLoginGerencia").addEventListener("click", fecharLoginGerencia);
+if ($("cancelarLoginGerencia")) $("cancelarLoginGerencia").addEventListener("click", fecharLoginGerencia);
+if ($("btnSairGerencia")) $("btnSairGerencia").addEventListener("click", sairGerencia);
+
+if ($("modalLoginGerencia")) {
+  $("modalLoginGerencia").addEventListener("click", e => {
+    if (e.target === $("modalLoginGerencia")) fecharLoginGerencia();
+  });
+}
+
+if ($("formLoginGerencia")) {
+  $("formLoginGerencia").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const email = $("emailGerencia").value.trim();
+    const senha = $("senhaGerencia").value;
+    const erro = $("erroLoginGerencia");
+    const botao = e.submitter;
+
+    erro.hidden = true;
+    if (botao) {
+      botao.disabled = true;
+      botao.textContent = "Entrando...";
+    }
+
+    try {
+      await loginGerencia(email, senha);
+      fecharLoginGerencia();
+    } catch (falha) {
+      console.error("Falha no login da Gerência:", falha);
+      erro.textContent = falha.message || "Não foi possível entrar na Gerência.";
+      erro.hidden = false;
+    } finally {
+      if (botao) {
+        botao.disabled = false;
+        botao.textContent = "Entrar na Gerência";
+      }
+    }
+  });
+}
+
 async function iniciarSistema() {
   mostrarDataAtual();
+  await restaurarSessaoGerencia();
 
   try {
     await carregarAtendimentosOnline();
