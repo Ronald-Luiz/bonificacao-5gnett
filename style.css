@@ -1142,3 +1142,95 @@ footer strong {
     font-size: 9px;
   }
 }
+
+
+/* =========================================================
+   BONIFICAÇÃO — DESEMPENHO DA EQUIPE
+   ========================================================= */
+
+.filtros-bonificacao {
+  grid-template-columns: 1fr 1fr 1fr auto auto;
+}
+
+.cards-bonificacao {
+  margin-bottom: 18px;
+}
+
+.tabela-bonificacao {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+}
+
+.tabela-bonificacao th,
+.tabela-bonificacao td {
+  width: auto !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.tabela-bonificacao th:nth-child(1),
+.tabela-bonificacao td:nth-child(1) {
+  width: 9% !important;
+}
+
+.tabela-bonificacao th:nth-child(2),
+.tabela-bonificacao td:nth-child(2) {
+  width: 18% !important;
+  text-align: left;
+}
+
+.tabela-bonificacao th:nth-child(3),
+.tabela-bonificacao td:nth-child(3) {
+  width: 14% !important;
+}
+
+.tabela-bonificacao th:nth-child(4),
+.tabela-bonificacao td:nth-child(4) {
+  width: 13% !important;
+}
+
+.tabela-bonificacao th:nth-child(5),
+.tabela-bonificacao td:nth-child(5) {
+  width: 14% !important;
+}
+
+.tabela-bonificacao th:nth-child(6),
+.tabela-bonificacao td:nth-child(6) {
+  width: 10% !important;
+}
+
+.tabela-bonificacao th:nth-child(7),
+.tabela-bonificacao td:nth-child(7) {
+  width: 10% !important;
+}
+
+.tabela-bonificacao th:nth-child(8),
+.tabela-bonificacao td:nth-child(8) {
+  width: 12% !important;
+}
+
+.posicao-ranking {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+@media (max-width: 820px) {
+  .filtros-bonificacao {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tabela-bonificacao th,
+  .tabela-bonificacao td {
+    padding: 7px 3px;
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 560px) {
+  .filtros-bonificacao {
+    grid-template-columns: 1fr;
+  }
+}
