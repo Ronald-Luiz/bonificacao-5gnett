@@ -381,6 +381,140 @@ if (btnNovoAtendimentoTopo) {
   btnNovoAtendimentoTopo.addEventListener("click", () => abrirModal());
 }
 
+
+// =========================
+// NAVEGAÇÃO DO PAINEL
+// =========================
+function marcarMenuAtivo(botao) {
+  document.querySelectorAll(".menu-item").forEach(item => {
+    item.classList.remove("active");
+  });
+
+  if (botao) botao.classList.add("active");
+}
+
+function mostrarPagina(nome) {
+  const paginas = [
+    $("paginaInicio"),
+    $("paginaAtendimentos"),
+    $("paginaRelatorios")
+  ].filter(Boolean);
+
+  paginas.forEach(pagina => pagina.classList.remove("ativa"));
+
+  if (nome === "atendimentos") {
+    $("paginaAtendimentos").classList.add("ativa");
+    marcarMenuAtivo($("menuAtendimentos"));
+    renderizarTabela();
+  } else if (nome === "relatorios") {
+    $("paginaRelatorios").classList.add("ativa");
+    marcarMenuAtivo($("menuRelatorios"));
+    atualizarRelatorios();
+  } else {
+    $("paginaInicio").classList.add("ativa");
+    marcarMenuAtivo($("menuInicio"));
+    atualizarCards();
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =========================
+// RELATÓRIOS
+// =========================
+function obterDadosRelatorio() {
+  const inicial = $("relatorioDataInicial")?.value || "";
+  const final = $("relatorioDataFinal")?.value || "";
+  const atendente = $("relatorioAtendente")?.value || "";
+
+  return atendimentos.filter(item => {
+    if (inicial && item.data < inicial) return false;
+    if (final && item.data > final) return false;
+    if (atendente && item.atendente !== atendente) return false;
+    return true;
+  });
+}
+
+function atualizarRelatorios() {
+  if (!$("paginaRelatorios")) return;
+
+  const lista = obterDadosRelatorio();
+  const total = lista.length;
+  const resolvidos = lista.filter(a => a.resolutividade === "Resolvido").length;
+  const naoResolvidos = total - resolvidos;
+  const taxa = total ? Math.round((resolvidos / total) * 100) : 0;
+  const chatmix = lista.filter(a => (a.canal || "Chatmix") === "Chatmix").length;
+  const ligacoes = lista.filter(a => a.canal === "Ligação").length;
+
+  $("relTotal").textContent = total;
+  $("relResolvidos").textContent = resolvidos;
+  $("relNaoResolvidos").textContent = naoResolvidos;
+  $("relTaxa").textContent = `${taxa}%`;
+  $("relChatmix").textContent = chatmix;
+  $("relLigacoes").textContent = ligacoes;
+
+  const nomes = ["Guilherme", "Ronald", "Ivo", "Juarez"];
+  const filtroAtendente = $("relatorioAtendente").value;
+  const nomesExibidos = filtroAtendente ? [filtroAtendente] : nomes;
+
+  $("tabelaRelatorioAtendentes").innerHTML = nomesExibidos.map(nome => {
+    const itens = lista.filter(a => a.atendente === nome);
+    const qtd = itens.length;
+    const ok = itens.filter(a => a.resolutividade === "Resolvido").length;
+    const nao = qtd - ok;
+    const chats = itens.filter(a => (a.canal || "Chatmix") === "Chatmix").length;
+    const calls = itens.filter(a => a.canal === "Ligação").length;
+    const percentual = qtd ? Math.round((ok / qtd) * 100) : 0;
+
+    return `
+      <tr>
+        <td><strong>${escaparHTML(nome)}</strong></td>
+        <td>${qtd}</td>
+        <td>${ok}</td>
+        <td>${nao}</td>
+        <td>${chats}</td>
+        <td>${calls}</td>
+        <td><strong>${percentual}%</strong></td>
+      </tr>
+    `;
+  }).join("");
+}
+
+const menuInicio = $("menuInicio");
+const menuAtendimentos = $("menuAtendimentos");
+const menuRelatorios = $("menuRelatorios");
+const btnNovoAtendimentoTopo = $("btnNovoAtendimentoTopo");
+
+if (menuInicio) {
+  menuInicio.addEventListener("click", () => mostrarPagina("inicio"));
+}
+
+if (menuAtendimentos) {
+  menuAtendimentos.addEventListener("click", () => mostrarPagina("atendimentos"));
+}
+
+if (menuRelatorios) {
+  menuRelatorios.addEventListener("click", () => mostrarPagina("relatorios"));
+}
+
+if (btnNovoAtendimentoTopo) {
+  btnNovoAtendimentoTopo.addEventListener("click", () => abrirModal());
+}
+
+if ($("btnFiltrarRelatorio")) {
+  $("btnFiltrarRelatorio").addEventListener("click", atualizarRelatorios);
+}
+
+if ($("btnLimparRelatorio")) {
+  $("btnLimparRelatorio").addEventListener("click", () => {
+    $("relatorioDataInicial").value = "";
+    $("relatorioDataFinal").value = "";
+    $("relatorioAtendente").value = "";
+    atualizarRelatorios();
+  });
+}
+
 migrarDadosAntigos();
 mostrarDataAtual();
 atualizarTela();
+atualizarRelatorios();
