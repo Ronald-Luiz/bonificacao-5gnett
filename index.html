@@ -20,8 +20,8 @@
     </div>
 
     <nav class="menu">
-      <button class="menu-item active"><span>⌂</span>Início</button>
-      <button class="menu-item"><span>▤</span>Atendimentos</button>
+      <button class="menu-item active" id="menuInicio"><span>⌂</span>Início</button>
+      <button class="menu-item" id="menuAtendimentos"><span>▤</span>Atendimentos</button>
       <button class="menu-item" id="menuNovoAtendimento"><span>＋</span>Novo Atendimento</button>
       <button class="menu-item"><span>🏆</span>Bonificação</button>
       <button class="menu-item"><span>▥</span>Relatórios</button>
@@ -55,6 +55,7 @@
       </div>
     </header>
 
+    <div id="paginaInicio" class="pagina-app ativa">
     <section class="page-header">
       <div>
         <h2>📋 Controle de Atendimentos</h2>
@@ -96,6 +97,16 @@
         </div>
       </article>
     </section>
+    </div>
+
+    <div id="paginaAtendimentos" class="pagina-app">
+      <section class="page-header">
+        <div>
+          <h2>▤ Atendimentos</h2>
+          <p>Consulte, filtre, edite e visualize todos os atendimentos registrados.</p>
+        </div>
+        <button class="btn-novo" id="btnNovoAtendimentoTopo">＋ Novo Atendimento</button>
+      </section>
 
     <section class="filtros">
       <div class="campo">
@@ -177,6 +188,7 @@
         </table>
       </div>
     </section>
+    </div>
 
     <footer>
       <div>
