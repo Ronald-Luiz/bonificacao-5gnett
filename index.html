@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>5GNETT | Controle de Atendimentos</title>
-  <link rel="stylesheet" href="style.css?v=20260915-5">
+  <link rel="stylesheet" href="style.css?v=20260915-6">
 </head>
 
 <body>
@@ -193,10 +193,10 @@
 
 
     <div id="paginaBonificacao" class="pagina-app">
-      <section class="page-header">
+      <section class="page-header bonificacao-header">
         <div>
           <h2>🏆 Bonificação</h2>
-          <p>Acompanhe a pontuação e o desempenho da equipe com base nos atendimentos registrados.</p>
+          <p>Ranking de desempenho da equipe de atendimento.</p>
         </div>
       </section>
 
@@ -211,87 +211,85 @@
           <input type="date" id="bonificacaoDataFinal">
         </div>
 
-        <div class="campo">
-          <label>Atendente</label>
-          <select id="bonificacaoAtendente">
-            <option value="">Todos</option>
-            <option value="Guilherme">Guilherme</option>
-            <option value="Ronald">Ronald</option>
-            <option value="Ivo">Ivo</option>
-            <option value="Juarez">Juarez</option>
-          </select>
+        <button class="btn-filtrar" id="btnFiltrarBonificacao" type="button">Atualizar ranking</button>
+        <button class="btn-limpar" id="btnLimparBonificacao" type="button">Limpar período</button>
+      </section>
+
+      <section class="bonificacao-destaque">
+        <div class="trofeu-lider">🏆</div>
+        <div class="bonificacao-destaque-texto">
+          <span>DESTAQUE DO PERÍODO</span>
+          <h3 id="bonifLiderNome">Nenhum atendimento</h3>
+          <p id="bonifLiderResumo">Cadastre atendimentos para gerar o ranking da equipe.</p>
         </div>
-
-        <button class="btn-filtrar" id="btnFiltrarBonificacao" type="button">Filtrar</button>
-        <button class="btn-limpar" id="btnLimparBonificacao" type="button">Limpar</button>
+        <div class="bonificacao-destaque-taxa">
+          <span>Resolutividade</span>
+          <strong id="bonifLiderTaxa">0%</strong>
+        </div>
       </section>
 
-      <section class="cards cards-bonificacao">
-        <article class="card">
-          <div class="card-icon dourado">🏆</div>
-          <div>
-            <span>Total considerado</span>
-            <strong id="bonifTotal">0</strong>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-icon verde">✓</div>
-          <div>
-            <span>Resolvidos</span>
-            <strong id="bonifResolvidos">0</strong>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-icon azul">💬</div>
-          <div>
-            <span>Chatmix</span>
-            <strong id="bonifChatmix">0</strong>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-icon azul">📞</div>
-          <div>
-            <span>Ligações</span>
-            <strong id="bonifLigacoes">0</strong>
-          </div>
-        </article>
-      </section>
-
-      <section class="atendimentos">
+      <section class="ranking-equipe">
         <div class="section-header">
           <div>
-            <h3>🏅 Desempenho da equipe</h3>
-            <span>Sem valores financeiros nesta etapa</span>
+            <h3>🏅 Ranking da equipe</h3>
+            <span>Classificação por resolutividade, resolvidos e volume de atendimentos.</span>
           </div>
         </div>
 
-        <div class="table-container">
-          <table class="tabela-bonificacao">
-            <thead>
-              <tr>
-                <th>Posição</th>
-                <th>Atendente</th>
-                <th>Atendimentos</th>
-                <th>Resolvidos</th>
-                <th>Não Resolvidos</th>
-                <th>Chatmix</th>
-                <th>Ligações</th>
-                <th>Resolutividade</th>
-              </tr>
-            </thead>
-            <tbody id="tabelaBonificacao">
-              <tr>
-                <td colspan="8" style="text-align:center;padding:30px;color:#91a4b7">
-                  Os dados serão calculados automaticamente.
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="ranking-grid" id="rankingBonificacao">
+          <article class="ranking-card">
+            <div class="ranking-posicao">1º</div>
+            <div class="ranking-medalha">🥇</div>
+            <h4>Guilherme</h4>
+            <strong>0%</strong>
+            <span>0 atendimentos • 0 resolvidos</span>
+          </article>
+
+          <article class="ranking-card">
+            <div class="ranking-posicao">2º</div>
+            <div class="ranking-medalha">🥈</div>
+            <h4>Ronald</h4>
+            <strong>0%</strong>
+            <span>0 atendimentos • 0 resolvidos</span>
+          </article>
+
+          <article class="ranking-card">
+            <div class="ranking-posicao">3º</div>
+            <div class="ranking-medalha">🥉</div>
+            <h4>Ivo</h4>
+            <strong>0%</strong>
+            <span>0 atendimentos • 0 resolvidos</span>
+          </article>
+
+          <article class="ranking-card">
+            <div class="ranking-posicao">4º</div>
+            <div class="ranking-medalha">🏅</div>
+            <h4>Juarez</h4>
+            <strong>0%</strong>
+            <span>0 atendimentos • 0 resolvidos</span>
+          </article>
         </div>
       </section>
+
+      <section class="bonificacao-resumo">
+        <div class="bonificacao-resumo-item">
+          <span>Atendimentos no período</span>
+          <strong id="bonifTotal">0</strong>
+        </div>
+        <div class="bonificacao-resumo-item">
+          <span>Resolvidos pela equipe</span>
+          <strong id="bonifResolvidos">0</strong>
+        </div>
+        <div class="bonificacao-resumo-item">
+          <span>Resolutividade da equipe</span>
+          <strong id="bonifTaxaEquipe">0%</strong>
+        </div>
+      </section>
+
+      <div class="bonificacao-aviso">
+        <strong>Bonificação financeira ainda não configurada.</strong>
+        <span>Primeiro vamos definir a regra de pontuação para que o cálculo seja justo e automático.</span>
+      </div>
     </div>
 
     <div id="paginaRelatorios" class="pagina-app">
@@ -579,6 +577,6 @@
   </div>
 </div>
 
-<script src="script.js?v=20260915-5"></script>
+<script src="script.js?v=20260915-6"></script>
 </body>
 </html>
