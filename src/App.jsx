@@ -1,0 +1,756 @@
+import { useEffect, useRef } from "react";
+import "./style.css";
+import { initializeLegacyApp } from "./legacyLoader";
+
+const PAGE_HTML = `<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">◉</div>
+      <div>
+        <h1>5GNETT</h1>
+        <span>CENTRAL OPERACIONAL</span>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <button class="menu-item active" id="menuInicio"><span>⌂</span>Início</button>
+      <button class="menu-item" id="menuAtendimentos"><span>▤</span>Atendimentos</button>
+      <button class="menu-item" id="menuNovoAtendimento"><span>＋</span>Novo Atendimento</button>
+      <button class="menu-item menu-gerencia" id="menuBonificacao" data-gerencia="true"><span>🏆</span>Bonificação</button>
+      <button class="menu-item menu-gerencia" id="menuRelatorios" data-gerencia="true"><span>▥</span>Relatórios</button>
+      <button class="menu-item menu-gerencia" id="menuConfiguracoes" data-gerencia="true"><span>⚙</span>Configurações</button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <strong>5GNETT</strong>
+      <span>Operações de Suporte</span>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <header class="topbar topbar-corporativa">
+      <div class="search-box busca-global">
+        <span>⌕</span>
+        <input
+          type="text"
+          id="pesquisa"
+          placeholder="Pesquisar cliente, código, cidade ou atendente..."
+        >
+      </div>
+
+      <div class="usuario usuario-corporativo">
+        <div class="avatar">5G</div>
+        <div class="usuario-info">
+          <strong id="usuarioNome">Equipe 5GNETT</strong>
+          <span id="usuarioPerfil">Suporte Técnico</span>
+        </div>
+        <button class="btn-login-gerencia" id="btnLoginGerencia" type="button">🔐 Gerência</button>
+        <button class="btn-sair-gerencia" id="btnSairGerencia" type="button" hidden>Sair</button>
+      </div>
+    </header>
+
+    <div id="paginaInicio" class="pagina-app ativa">
+      <section class="dashboard-hero">
+        <div class="dashboard-hero-copy">
+          <span class="dashboard-eyebrow">CENTRAL OPERACIONAL • SUPORTE TÉCNICO</span>
+          <h2>Visão geral do atendimento</h2>
+          <p>Acompanhe a operação da equipe e acesse rapidamente os registros de suporte.</p>
+        </div>
+        <div class="dashboard-hero-actions">
+          <div class="data-atual" id="dataAtual">--</div>
+          <button class="btn-novo dashboard-cta" id="btnNovoAtendimentoInicio" type="button" >＋ Registrar atendimento</button>
+        </div>
+      </section>
+
+      <section class="dashboard-kpis cards">
+        <article class="card kpi-card">
+          <div class="kpi-acento kpi-azul"></div>
+          <div class="kpi-conteudo">
+            <span>Total de atendimentos</span>
+            <strong id="totalAtendimentos">0</strong>
+            <small>Registros no sistema</small>
+          </div>
+        </article>
+
+        <article class="card kpi-card">
+          <div class="kpi-acento kpi-verde"></div>
+          <div class="kpi-conteudo">
+            <span>Resolvidos</span>
+            <strong id="totalResolvidos">0</strong>
+            <small>Atendimentos concluídos</small>
+          </div>
+        </article>
+
+        <article class="card kpi-card">
+          <div class="kpi-acento kpi-vermelho"></div>
+          <div class="kpi-conteudo">
+            <span>Não resolvidos</span>
+            <strong id="totalNaoResolvidos">0</strong>
+            <small>Demandas pendentes</small>
+          </div>
+        </article>
+
+        <article class="card kpi-card kpi-destaque">
+          <div class="kpi-acento kpi-dourado"></div>
+          <div class="kpi-conteudo">
+            <span>Resolutividade</span>
+            <strong id="taxaResolutividade">0%</strong>
+            <small>Eficiência operacional</small>
+          </div>
+        </article>
+      </section>
+
+      <section class="dashboard-workspace">
+        <article class="workspace-panel">
+          <div class="workspace-head">
+            <div>
+              <span class="workspace-kicker">ACESSO RÁPIDO</span>
+              <h3>Operação de atendimento</h3>
+            </div>
+          </div>
+          <div class="workspace-actions">
+            <button type="button" class="workspace-action principal" >
+              <span class="workspace-action-icon">＋</span>
+              <span><strong>Novo atendimento</strong><small>Registrar conversa ou ligação</small></span>
+            </button>
+            <button type="button" class="workspace-action" onclick="document.getElementById('menuAtendimentos').click()">
+              <span class="workspace-action-icon">▤</span>
+              <span><strong>Consultar registros</strong><small>Pesquisar, filtrar e editar</small></span>
+            </button>
+          </div>
+        </article>
+
+        <article class="workspace-panel workspace-status">
+          <div class="workspace-head">
+            <div>
+              <span class="workspace-kicker">AMBIENTE</span>
+              <h3>Status do sistema</h3>
+            </div>
+            <span class="status-online"><i></i> Operacional</span>
+          </div>
+          <div class="status-linhas">
+            <div><span>Banco de dados</span><strong>Supabase Online</strong></div>
+            <div><span>Equipe</span><strong>Suporte Técnico</strong></div>
+            <div><span>Módulo</span><strong>Atendimentos</strong></div>
+          </div>
+        </article>
+      </section>
+    </div>
+
+    <div id="paginaAtendimentos" class="pagina-app">
+      <section class="page-header">
+        <div>
+          <h2>▤ Atendimentos</h2>
+          <p>Consulte, filtre, edite e visualize todos os atendimentos registrados.</p>
+        </div>
+        <button class="btn-novo" id="btnNovoAtendimentoTopo" type="button">＋ Novo Atendimento</button>
+      </section>
+
+    <section class="filtros filtros-operacionais">
+      <div class="campo">
+        <label>Data inicial</label>
+        <input type="date" id="dataInicial">
+      </div>
+
+      <div class="campo">
+        <label>Data final</label>
+        <input type="date" id="dataFinal">
+      </div>
+
+      <div class="campo">
+        <label>Atendente</label>
+        <select id="filtroAtendente">
+          <option value="">Todos</option>
+          <option value="Guilherme">Guilherme</option>
+          <option value="Ronald">Ronald</option>
+          <option value="Ivo">Ivo</option>
+          <option value="Juarez">Juarez</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Canal</label>
+        <select id="filtroCanal">
+          <option value="">Todos</option>
+          <option value="Chatmix">Chatmix</option>
+          <option value="Ligação">Ligação</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Resolutividade</label>
+        <select id="filtroResolutividade">
+          <option value="">Todos</option>
+          <option value="Resolvido">Resolvido</option>
+          <option value="Não resolvido">Não resolvido</option>
+        </select>
+      </div>
+
+      <button class="btn-filtrar" id="btnFiltrar">Filtrar</button>
+      <button class="btn-limpar" id="btnLimpar">Limpar</button>
+    </section>
+
+    <section class="atendimentos">
+      <div class="section-header">
+        <div>
+          <h3>Registros de atendimento</h3>
+          <span id="contadorRegistros">Total de 0 registros</span>
+        </div>
+
+        <button class="btn-novo" id="btnNovoAtendimento">
+          ＋ Novo Atendimento
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Data</th>
+              <th>Código</th>
+              <th>Cliente</th>
+              <th>Atendente</th>
+              <th>Cidade</th>
+              <th>Canal</th>
+              <th>Tipo de Serviço</th>
+              <th>Resolutividade</th>
+              <th>⭐ Pontos</th>
+              <th>Conversa / Relato</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody id="tabelaAtendimentos">
+            <!-- Registros inseridos pelo JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+    </div>
+
+
+
+    <div id="paginaBonificacao" class="pagina-app">
+      <section class="page-header bonificacao-header">
+        <div>
+          <span class="page-eyebrow">GESTÃO • DESEMPENHO</span>
+          <h2>Bonificação</h2>
+          <p>Acompanhe pontuação, qualidade e evolução individual da equipe.</p>
+        </div>
+        <div class="bonificacao-metas-topo">
+          <div><span>META INDIVIDUAL</span><strong>250 pts</strong></div>
+          <div><span>FAIXA INDIVIDUAL</span><strong>350 pts</strong><small>+20%</small></div>
+        </div>
+      </section>
+
+      <section class="filtros filtros-bonificacao bonificacao-toolbar">
+        <div class="campo">
+          <label>Data inicial</label>
+          <input type="date" id="bonificacaoDataInicial">
+        </div>
+        <div class="campo">
+          <label>Data final</label>
+          <input type="date" id="bonificacaoDataFinal">
+        </div>
+        <button class="btn-filtrar" id="btnFiltrarBonificacao" type="button">Atualizar</button>
+        <button class="btn-limpar" id="btnLimparBonificacao" type="button">Limpar</button>
+      </section>
+
+      <section class="bonificacao-resumo performance-kpis">
+        <div class="bonificacao-resumo-item">
+          <span>Atendimentos no período</span>
+          <strong id="bonifTotal">0</strong>
+        </div>
+        <div class="bonificacao-resumo-item">
+          <span>Resolvidos pela equipe</span>
+          <strong id="bonifResolvidos">0</strong>
+        </div>
+        <div class="bonificacao-resumo-item">
+          <span>Resolutividade da equipe</span>
+          <strong id="bonifTaxaEquipe">0%</strong>
+        </div>
+      </section>
+
+      <section class="bonificacao-destaque performance-lider">
+        <div class="performance-lider-selo">01</div>
+        <div class="bonificacao-destaque-texto">
+          <span>LÍDER DO PERÍODO</span>
+          <h3 id="bonifLiderNome">Nenhum atendimento</h3>
+          <p id="bonifLiderResumo">Cadastre atendimentos para gerar o ranking da equipe.</p>
+        </div>
+        <div class="bonificacao-destaque-taxa">
+          <span>PONTUAÇÃO</span>
+          <strong id="bonifLiderTaxa">0 pts</strong>
+        </div>
+      </section>
+
+      <section class="ranking-equipe performance-ranking">
+        <div class="section-header">
+          <div>
+            <span class="workspace-kicker">DESEMPENHO INDIVIDUAL</span>
+            <h3>Ranking da equipe</h3>
+            <span>Classificação por pontos, média, resolutividade e volume de atendimentos.</span>
+          </div>
+          <div class="ranking-legenda">
+            <span><i class="legenda-meta"></i>250 pts Meta individual</span>
+            <span><i class="legenda-superior"></i>350 pts Faixa individual (+20%)</span>
+          </div>
+        </div>
+
+        <div class="ranking-grid" id="rankingBonificacao">
+          <article class="ranking-card">
+            <div class="ranking-posicao">1º</div>
+            <h4>Guilherme</h4>
+            <strong>0 pts</strong>
+            <span>0 atendimentos • média 0,00 pts</span>
+          </article>
+          <article class="ranking-card">
+            <div class="ranking-posicao">2º</div>
+            <h4>Ronald</h4>
+            <strong>0 pts</strong>
+            <span>0 atendimentos • média 0,00 pts</span>
+          </article>
+          <article class="ranking-card">
+            <div class="ranking-posicao">3º</div>
+            <h4>Ivo</h4>
+            <strong>0 pts</strong>
+            <span>0 atendimentos • média 0,00 pts</span>
+          </article>
+          <article class="ranking-card">
+            <div class="ranking-posicao">4º</div>
+            <h4>Juarez</h4>
+            <strong>0 pts</strong>
+            <span>0 atendimentos • média 0,00 pts</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="bonificacao-regras">
+        <div>
+          <span class="workspace-kicker">CRITÉRIOS</span>
+          <h3>Regra de pontuação</h3>
+        </div>
+        <div class="regra-pontos-grid">
+          <span><b>3</b> Simples</span>
+          <span><b>4</b> Normal</span>
+          <span><b>5</b> Complexo</span>
+          <span><b>6</b> Excelente</span>
+          <span class="regra-negativa"><b>−2</b> Erro leve</span>
+          <span class="regra-negativa"><b>−5</b> Erro grave</span>
+        </div>
+      </section>
+    </div>
+
+    <div id="paginaRelatorios" class="pagina-app">
+      <section class="page-header">
+        <div>
+          <span class="page-eyebrow">GESTÃO</span><h2>Relatórios</h2>
+          <p>Acompanhe os resultados dos atendimentos e o desempenho da equipe.</p>
+        </div>
+      </section>
+
+      <section class="filtros filtros-relatorios">
+        <div class="campo">
+          <label>Data inicial</label>
+          <input type="date" id="relatorioDataInicial">
+        </div>
+
+        <div class="campo">
+          <label>Data final</label>
+          <input type="date" id="relatorioDataFinal">
+        </div>
+
+        <div class="campo">
+          <label>Atendente</label>
+          <select id="relatorioAtendente">
+            <option value="">Todos</option>
+            <option value="Guilherme">Guilherme</option>
+            <option value="Ronald">Ronald</option>
+            <option value="Ivo">Ivo</option>
+            <option value="Juarez">Juarez</option>
+          </select>
+        </div>
+
+        <button class="btn-filtrar" id="btnFiltrarRelatorio" type="button">Filtrar</button>
+        <button class="btn-limpar" id="btnLimparRelatorio" type="button">Limpar</button>
+      </section>
+
+      <section class="cards cards-relatorios">
+        <article class="card">
+          <div class="card-icon azul">🎧</div>
+          <div>
+            <span>Total no período</span>
+            <strong id="relTotal">0</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon verde">✓</div>
+          <div>
+            <span>Resolvidos</span>
+            <strong id="relResolvidos">0</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon vermelho">✕</div>
+          <div>
+            <span>Não Resolvidos</span>
+            <strong id="relNaoResolvidos">0</strong>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon dourado">%</div>
+          <div>
+            <span>Resolutividade</span>
+            <strong id="relTaxa">0%</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="relatorio-blocos">
+        <article class="relatorio-painel">
+          <div class="section-header">
+            <div>
+              <h3>💬 Canais de atendimento</h3>
+              <span>Distribuição entre Chatmix e Ligações</span>
+            </div>
+          </div>
+
+          <div class="relatorio-mini-cards">
+            <div class="relatorio-mini-card">
+              <span>Chatmix</span>
+              <strong id="relChatmix">0</strong>
+            </div>
+            <div class="relatorio-mini-card">
+              <span>Ligações</span>
+              <strong id="relLigacoes">0</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="relatorio-painel">
+          <div class="section-header">
+            <div>
+              <h3>👥 Desempenho por atendente</h3>
+              <span>Resumo individual da equipe</span>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="tabela-relatorio">
+              <thead>
+                <tr>
+                  <th>Atendente</th>
+                  <th>Total</th>
+                  <th>Resolvidos</th>
+                  <th>Não Resolvidos</th>
+                  <th>Chatmix</th>
+                  <th>Ligações</th>
+                  <th>Resolutividade</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaRelatorioAtendentes">
+                <tr>
+                  <td colspan="7" style="text-align:center;padding:30px;color:#91a4b7">
+                    Os dados serão carregados automaticamente.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </div>
+
+
+    <div id="paginaConfiguracoes" class="pagina-app">
+      <section class="page-header">
+        <div>
+          <span class="page-eyebrow">ADMINISTRAÇÃO</span><h2>Configurações</h2>
+          <p>Gerencie as preferências e informações básicas do sistema.</p>
+        </div>
+      </section>
+
+      <section class="config-grid">
+        <article class="config-card">
+          <div class="config-card-topo">
+            <div class="config-icone">👥</div>
+            <div>
+              <h3>Equipe de atendimento</h3>
+              <p>Atendentes cadastrados no sistema.</p>
+            </div>
+          </div>
+
+          <div class="config-equipe-lista">
+            <div class="config-atendente"><span>G</span><strong>Guilherme</strong><small>Ativo</small></div>
+            <div class="config-atendente"><span>R</span><strong>Ronald</strong><small>Ativo</small></div>
+            <div class="config-atendente"><span>I</span><strong>Ivo</strong><small>Ativo</small></div>
+            <div class="config-atendente"><span>J</span><strong>Juarez</strong><small>Ativo</small></div>
+          </div>
+        </article>
+
+        <article class="config-card">
+          <div class="config-card-topo">
+            <div class="config-icone">🏆</div>
+            <div>
+              <h3>Bonificação</h3>
+              <p>Configuração da regra de pontuação.</p>
+            </div>
+          </div>
+
+          <div class="config-status-box">
+            <span>REGRA ATUAL</span>
+            <strong>Pontuação individual</strong>
+            <p>Simples 3 • Normal 4 • Complexo 5 • Excelente 6 • Erro leve −2 • Erro grave −5.</p>
+          </div>
+
+          <div class="config-aviso">
+            Metas individuais por atendente: 250 pontos = meta atingida • 350 pontos = faixa superior (+20%).
+          </div>
+        </article>
+
+        <article class="config-card">
+          <div class="config-card-topo">
+            <div class="config-icone">💾</div>
+            <div>
+              <h3>Armazenamento</h3>
+              <p>Onde os registros estão sendo salvos atualmente.</p>
+            </div>
+          </div>
+
+          <div class="config-status-box">
+            <span>STATUS ATUAL</span>
+            <strong>Supabase online</strong>
+            <p>Os atendimentos são sincronizados pelo banco de dados online, com backup local no navegador.</p>
+          </div>
+
+          <div class="config-aviso importante">
+            Banco de dados online conectado e sincronizado com a equipe e a Gerência.
+          </div>
+        </article>
+
+        <article class="config-card">
+          <div class="config-card-topo">
+            <div class="config-icone">ℹ️</div>
+            <div>
+              <h3>Sistema</h3>
+              <p>Informações da aplicação.</p>
+            </div>
+          </div>
+
+          <div class="config-info-linhas">
+            <div><span>Sistema</span><strong>5GNETT | Central de Atendimento</strong></div>
+            <div><span>Equipe</span><strong>Suporte Técnico</strong></div>
+            <div><span>Versão</span><strong>1.0</strong></div>
+          </div>
+        </article>
+      </section>
+    </div>
+
+    <footer>
+      <div>
+        <strong>5GNETT</strong>
+        <span> • Central de Atendimento</span>
+      </div>
+      <span>Equipe de Suporte Técnico</span>
+    </footer>
+
+  </main>
+</div>
+
+<!-- MODAL LOGIN DA GERÊNCIA -->
+<div class="modal" id="modalLoginGerencia">
+  <div class="modal-content modal-login-gerencia">
+    <div class="modal-header">
+      <div><h2>🔐 Acesso da Gerência</h2><p>Entre com a conta administrativa cadastrada no sistema.</p></div>
+      <button class="fechar-modal" id="fecharLoginGerencia" type="button">×</button>
+    </div>
+    <form id="formLoginGerencia">
+      <div class="login-gerencia-campos">
+        <div class="campo"><label>E-mail</label><input type="email" id="emailGerencia" placeholder="E-mail da gerência" autocomplete="username" required></div>
+        <div class="campo"><label>Senha</label><input type="password" id="senhaGerencia" placeholder="Digite sua senha" autocomplete="current-password" required></div>
+        <div class="login-gerencia-erro" id="erroLoginGerencia" hidden></div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancelar" id="cancelarLoginGerencia">Cancelar</button>
+        <button type="submit" class="btn-salvar">Entrar na Gerência</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL NOVO / EDITAR ATENDIMENTO -->
+<div class="modal" id="modalAtendimento">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <div>
+        <h2>Novo Atendimento</h2>
+        <p>Cadastre as informações do atendimento realizado.</p>
+      </div>
+      <button class="fechar-modal" id="fecharModal" type="button">×</button>
+    </div>
+
+    <form id="formAtendimento">
+      <div class="form-grid">
+
+        <div class="campo">
+          <label>Data *</label>
+          <input type="date" id="data" required>
+        </div>
+
+        <div class="campo">
+          <label>Atendente *</label>
+          <select id="atendente" required>
+            <option value="">Selecione</option>
+            <option value="Guilherme">Guilherme</option>
+            <option value="Ronald">Ronald</option>
+            <option value="Ivo">Ivo</option>
+            <option value="Juarez">Juarez</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Código do cliente *</label>
+          <input
+            type="text"
+            id="codigo"
+            placeholder="Ex: 91796"
+            required
+          >
+        </div>
+
+        <div class="campo">
+          <label>Cidade *</label>
+          <input
+            type="text"
+            id="cidade"
+            placeholder="Ex: Caxambu"
+            required
+          >
+        </div>
+
+        <div class="campo campo-grande">
+          <label>Nome do cliente *</label>
+          <input
+            type="text"
+            id="nome"
+            placeholder="Nome do cliente"
+            required
+          >
+        </div>
+
+        <div class="campo">
+          <label>Canal do atendimento *</label>
+          <select id="canal" required>
+            <option value="Chatmix">Chatmix</option>
+            <option value="Ligação">Ligação</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Tipo de serviço *</label>
+          <select id="servico" required>
+            <option value="">Selecione</option>
+            <option value="Suporte técnico">Suporte técnico</option>
+            <option value="Sem conexão">Sem conexão</option>
+            <option value="Rompimento de fibra">Rompimento de fibra</option>
+            <option value="Suporte Rural">Suporte Rural</option>
+            <option value="Lentidão">Lentidão</option>
+            <option value="Configuração">Configuração</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Resolutividade *</label>
+          <select id="resolutividade" required>
+            <option value="Resolvido">Resolvido</option>
+            <option value="Não resolvido">Não resolvido</option>
+          </select>
+        </div>
+
+        <div class="campo campo-grande" id="grupoLink">
+          <label>Link da conversa no Chatmix *</label>
+          <input
+            type="url"
+            id="link"
+            placeholder="https://srv6.chatmix.com.br/..."
+          >
+        </div>
+
+        <div class="campo campo-grande campo-relato" id="grupoRelato">
+          <label>Relato da ligação *</label>
+          <textarea
+            id="relato"
+            rows="7"
+            placeholder="Descreva o que o cliente informou durante a chamada..."
+          ></textarea>
+          <small>
+            Registre aqui as principais informações passadas pelo cliente durante a ligação.
+          </small>
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancelar" id="cancelarModal">
+          Cancelar
+        </button>
+
+        <button type="submit" class="btn-salvar">
+          Salvar Atendimento
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<!-- MODAL PARA VISUALIZAR RELATO -->
+<div class="modal" id="modalRelato">
+  <div class="modal-content modal-relato-content">
+
+    <div class="modal-header">
+      <div>
+        <h2>📞 Relato da Ligação</h2>
+        <p id="relatoIdentificacao">Atendimento</p>
+      </div>
+      <button class="fechar-modal" id="fecharModalRelato" type="button">×</button>
+    </div>
+
+    <div class="relato-visualizacao" id="textoRelato"></div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-salvar" id="okRelato">
+        Fechar
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script src="script.js?v=20260915-12"></script>`;
+
+export default function App() {
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    if (!rootRef.current) return;
+
+    rootRef.current.innerHTML = PAGE_HTML;
+    initializeLegacyApp();
+
+    return () => {
+      // The original application manages its own event handlers/session.
+      // Full cleanup is intentionally left to the browser when the page is unloaded.
+    };
+  }, []);
+
+  return <div ref={rootRef} />;
+}
