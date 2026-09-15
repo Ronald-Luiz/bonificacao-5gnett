@@ -1,1 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>5GNETT | Sistema de Bonificação</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- MENU LATERAL -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">◉</div>
+
+            <div>
+                <h1>5GNETT</h1>
+                <span>CONECTANDO PESSOAS</span>
+            </div>
+        </div>
+
+        <nav class="menu">
+
+            <button class="menu-item active">
+                <span>⌂</span>
+                Início
+            </button>
+
+            <button class="menu-item">
+                <span>▤</span>
+                Atendimentos
+            </button>
+
+            <button class="menu-item" id="menuNovoAtendimento">
+                <span>＋</span>
+                Novo Atendimento
+            </button>
+
+            <button class="menu-item">
+                <span>🏆</span>
+                Bonificação
+            </button>
+
+            <button class="menu-item">
+                <span>▥</span>
+                Relatórios
+            </button>
+
+            <button class="menu-item">
+                <span>⚙</span>
+                Configurações
+            </button>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <strong>5GNETT</strong>
+            <span>Sistema de Bonificação</span>
+        </div>
+
+    </aside>
+
+
+    <!-- CONTEÚDO -->
+    <main class="main">
+
+        <!-- TOPO -->
+        <header class="topbar">
+
+            <div class="search-box">
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    id="pesquisa"
+                    placeholder="Pesquisar cliente, código ou cidade..."
+                >
+            </div>
+
+            <div class="usuario">
+
+                <div class="avatar">
+                    GM
+                </div>
+
+                <div>
+                    <strong>Guilherme</strong>
+                    <span>Suporte Técnico</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CABEÇALHO -->
+        <section class="page-header">
+
+            <div>
+                <h2>🏆 Painel de Bonificação</h2>
+
+                <p>
+                    Registre seus atendimentos e acompanhe seus resultados.
+                </p>
+            </div>
+
+            <div class="data-atual" id="dataAtual">
+                --
+            </div>
+
+        </section>
+
+
+        <!-- INDICADORES -->
+        <section class="cards">
+
+            <article class="card">
+
+                <div class="card-icon azul">
+                    🎧
+                </div>
+
+                <div>
+                    <span>Total de Atendimentos</span>
+
+                    <strong id="totalAtendimentos">
+                        0
+                    </strong>
+                </div>
+
+            </article>
+
+
+            <article class="card">
+
+                <div class="card-icon verde">
+                    ✓
+                </div>
+
+                <div>
+                    <span>Resolvidos</span>
+
+                    <strong id="totalResolvidos">
+                        0
+                    </strong>
+                </div>
+
+            </article>
+
+
+            <article class="card">
+
+                <div class="card-icon vermelho">
+                    ✕
+                </div>
+
+                <div>
+                    <span>Não Resolvidos</span>
+
+                    <strong id="totalNaoResolvidos">
+                        0
+                    </strong>
+                </div>
+
+            </article>
+
+
+            <article class="card">
+
+                <div class="card-icon dourado">
+                    R$
+                </div>
+
+                <div>
+                    <span>Sua Bonificação</span>
+
+                    <strong id="totalBonificacao">
+                        R$ 0,00
+                    </strong>
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- FILTROS -->
+        <section class="filtros">
+
+            <div class="campo">
+                <label>Data inicial</label>
+                <input type="date" id="dataInicial">
+            </div>
+
+            <div class="campo">
+                <label>Data final</label>
+                <input type="date" id="dataFinal">
+            </div>
+
+            <div class="campo">
+                <label>Cidade</label>
+
+                <select id="filtroCidade">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label>Tipo de serviço</label>
+
+                <select id="filtroServico">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label>Resolutividade</label>
+
+                <select id="filtroResolutividade">
+                    <option value="">Todos</option>
+                    <option value="Resolvido">Resolvido</option>
+                    <option value="Não resolvido">Não resolvido</option>
+                </select>
+            </div>
+
+            <button class="btn-filtrar" id="btnFiltrar">
+                Filtrar
+            </button>
+
+            <button class="btn-limpar" id="btnLimpar">
+                Limpar
+            </button>
+
+        </section>
+
+
+        <!-- ATENDIMENTOS -->
+        <section class="atendimentos">
+
+            <div class="section-header">
+
+                <div>
+                    <h3>☷ Atendimentos</h3>
+
+                    <span id="contadorRegistros">
+                        Total de 0 registros
+                    </span>
+                </div>
+
+                <button
+                    class="btn-novo"
+                    id="btnNovoAtendimento"
+                >
+                    ＋ Novo Atendimento
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Data</th>
+                            <th>Código Cliente</th>
+                            <th>Nome do Cliente</th>
+                            <th>Cidade</th>
+                            <th>Tipo de Serviço</th>
+                            <th>Resolutividade</th>
+                            <th>Link do Chatmix</th>
+                            <th>Pontos</th>
+                            <th>Ações</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tabelaAtendimentos">
+
+                        <!-- Os atendimentos aparecerão aqui -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+            <div>
+                <strong>5GNETT</strong>
+                <span> • Sistema de Bonificação</span>
+            </div>
+
+            <span>Controle interno de atendimentos</span>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- JANELA NOVO ATENDIMENTO -->
+<div class="modal" id="modalAtendimento">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <div>
+                <h2>Novo Atendimento</h2>
+                <p>Cadastre o atendimento realizado.</p>
+            </div>
+
+            <button
+                class="fechar-modal"
+                id="fecharModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="formAtendimento">
+
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label>Data</label>
+
+                    <input
+                        type="date"
+                        id="data"
+                        required
+                    >
+                </div>
+
+
+                <div class="campo">
+                    <label>Código do cliente</label>
+
+                    <input
+                        type="number"
+                        id="codigo"
+                        placeholder="Ex: 91796"
+                        required
+                    >
+                </div>
+
+
+                <div class="campo campo-grande">
+                    <label>Nome do cliente</label>
+
+                    <input
+                        type="text"
+                        id="nome"
+                        placeholder="Nome completo"
+                        required
+                    >
+                </div>
+
+
+                <div class="campo">
+                    <label>Cidade</label>
+
+                    <input
+                        type="text"
+                        id="cidade"
+                        placeholder="Ex: Caxambu"
+                        required
+                    >
+                </div>
+
+
+                <div class="campo">
+                    <label>Tipo de serviço</label>
+
+                    <select id="servico" required>
+
+                        <option value="">
+                            Selecione
+                        </option>
+
+                        <option>
+                            Suporte técnico
+                        </option>
+
+                        <option>
+                            Sem conexão
+                        </option>
+
+                        <option>
+                            Rompimento de fibra
+                        </option>
+
+                        <option>
+                            Suporte Rural
+                        </option>
+
+                        <option>
+                            Outros
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <div class="campo">
+                    <label>Resolutividade</label>
+
+                    <select
+                        id="resolutividade"
+                        required
+                    >
+
+                        <option value="Resolvido">
+                            Resolvido
+                        </option>
+
+                        <option value="Não resolvido">
+                            Não resolvido
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <div class="campo campo-grande">
+
+                    <label>
+                        Link da conversa no Chatmix
+                    </label>
+
+                    <input
+                        type="url"
+                        id="link"
+                        placeholder="https://srv6.chatmix.com.br/..."
+                        required
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Pontos
+                    </label>
+
+                    <input
+                        type="number"
+                        id="pontos"
+                        value="10"
+                        min="0"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="btn-cancelar"
+                    id="cancelarModal"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn-salvar"
+                >
+                    Salvar Atendimento
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
