@@ -364,7 +364,6 @@ function mostrarPagina(nome) {
     $("paginaRelatorios").classList.add("ativa");
     marcarMenuAtivo($("menuRelatorios"));
     atualizarRelatorios();
-atualizarBonificacao();
   } else {
     $("paginaInicio").classList.add("ativa");
     marcarMenuAtivo($("menuInicio"));
@@ -524,6 +523,10 @@ if (menuRelatorios) {
   menuRelatorios.addEventListener("click", () => mostrarPagina("relatorios"));
 }
 
+if (menuBonificacao) {
+  menuBonificacao.addEventListener("click", () => mostrarPagina("bonificacao"));
+}
+
 if (btnNovoAtendimentoTopo) {
   btnNovoAtendimentoTopo.addEventListener("click", () => abrirModal());
 }
@@ -559,3 +562,4 @@ migrarDadosAntigos();
 mostrarDataAtual();
 atualizarTela();
 atualizarRelatorios();
+atualizarBonificacao();
