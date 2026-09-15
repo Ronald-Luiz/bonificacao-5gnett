@@ -333,3 +333,50 @@ function mostrarDataAtual() {
 migrarDadosAntigos();
 mostrarDataAtual();
 atualizarTela();
+
+// =========================
+// NAVEGAÇÃO DO PAINEL
+// =========================
+
+const menuInicio = $("menuInicio");
+const menuAtendimentos = $("menuAtendimentos");
+const paginaInicio = $("paginaInicio");
+const paginaAtendimentos = $("paginaAtendimentos");
+const btnNovoAtendimentoTopo = $("btnNovoAtendimentoTopo");
+
+function marcarMenuAtivo(botao) {
+  document.querySelectorAll(".menu-item").forEach(item => {
+    item.classList.remove("active");
+  });
+
+  if (botao) botao.classList.add("active");
+}
+
+function mostrarPagina(nome) {
+  paginaInicio.classList.remove("ativa");
+  paginaAtendimentos.classList.remove("ativa");
+
+  if (nome === "atendimentos") {
+    paginaAtendimentos.classList.add("ativa");
+    marcarMenuAtivo(menuAtendimentos);
+    renderizarTabela();
+  } else {
+    paginaInicio.classList.add("ativa");
+    marcarMenuAtivo(menuInicio);
+    atualizarCards();
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+menuInicio.addEventListener("click", () => {
+  mostrarPagina("inicio");
+});
+
+menuAtendimentos.addEventListener("click", () => {
+  mostrarPagina("atendimentos");
+});
+
+if (btnNovoAtendimentoTopo) {
+  btnNovoAtendimentoTopo.addEventListener("click", () => abrirModal());
+}
