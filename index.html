@@ -25,7 +25,7 @@
       <button class="menu-item" id="menuNovoAtendimento"><span>＋</span>Novo Atendimento</button>
       <button class="menu-item" id="menuBonificacao"><span>🏆</span>Bonificação</button>
       <button class="menu-item" id="menuRelatorios"><span>▥</span>Relatórios</button>
-      <button class="menu-item"><span>⚙</span>Configurações</button>
+      <button class="menu-item" id="menuConfiguracoes"><span>⚙</span>Configurações</button>
     </nav>
 
     <div class="sidebar-footer">
@@ -410,6 +410,91 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </article>
+      </section>
+    </div>
+
+
+    <div id="paginaConfiguracoes" class="pagina-app">
+      <section class="page-header">
+        <div>
+          <h2>⚙️ Configurações</h2>
+          <p>Gerencie as preferências e informações básicas do sistema.</p>
+        </div>
+      </section>
+
+      <section class="config-grid">
+        <article class="config-card">
+          <div class="config-card-topo">
+            <div class="config-icone">👥</div>
+            <div>
+              <h3>Equipe de atendimento</h3>
+              <p>Atendentes cadastrados no sistema.</p>
+            </div>
+          </div>
+
+          <div class="config-equipe-lista">
+            <div class="config-atendente"><span>G</span><strong>Guilherme</strong><small>Ativo</small></div>
+            <div class="config-atendente"><span>R</span><strong>Ronald</strong><small>Ativo</small></div>
+            <div class="config-atendente"><span>I</span><strong>Ivo</strong><small>Ativo</small></div>
+            <div class="config-atendente"><span>J</span><strong>Juarez</strong><small>Ativo</small></div>
+          </div>
+        </article>
+
+        <article class="config-card">
+          <div class="config-card-topo">
+            <div class="config-icone">🏆</div>
+            <div>
+              <h3>Bonificação</h3>
+              <p>Configuração da regra de pontuação.</p>
+            </div>
+          </div>
+
+          <div class="config-status-box">
+            <span>REGRA ATUAL</span>
+            <strong>Ranking de desempenho</strong>
+            <p>Resolutividade → resolvidos → total de atendimentos.</p>
+          </div>
+
+          <div class="config-aviso">
+            Valores financeiros ainda não estão configurados.
+          </div>
+        </article>
+
+        <article class="config-card">
+          <div class="config-card-topo">
+            <div class="config-icone">💾</div>
+            <div>
+              <h3>Armazenamento</h3>
+              <p>Onde os registros estão sendo salvos atualmente.</p>
+            </div>
+          </div>
+
+          <div class="config-status-box">
+            <span>STATUS ATUAL</span>
+            <strong>Armazenamento local</strong>
+            <p>Os dados ficam salvos somente neste navegador/dispositivo.</p>
+          </div>
+
+          <div class="config-aviso importante">
+            Banco de dados online ainda será configurado para sincronizar os registros entre a equipe e a gerência.
+          </div>
+        </article>
+
+        <article class="config-card">
+          <div class="config-card-topo">
+            <div class="config-icone">ℹ️</div>
+            <div>
+              <h3>Sistema</h3>
+              <p>Informações da aplicação.</p>
+            </div>
+          </div>
+
+          <div class="config-info-linhas">
+            <div><span>Sistema</span><strong>5GNETT | Controle de Atendimentos</strong></div>
+            <div><span>Equipe</span><strong>Suporte Técnico</strong></div>
+            <div><span>Versão</span><strong>1.0</strong></div>
           </div>
         </article>
       </section>
